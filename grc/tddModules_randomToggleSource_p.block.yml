@@ -13,14 +13,14 @@ parameters:
   default: 0.4
 - id: samples_per_sec
   label: Samples per sec
-  dtype: 1e6
+  dtype: float
+  default: 1e6
 
 inputs:
-#- label: ...
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
+- label: src_pause
+  domain: message
+  optional: true
+
 
 outputs:
 - label: out0

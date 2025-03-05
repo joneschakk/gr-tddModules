@@ -7,8 +7,8 @@
 #
 
 install(FILES
-    tddModules_randomToggleSource.block.yml
+    
     tddModules_randomToggleSource_p.block.yml
     tddModules_msgStrobeTddRx_p.block.yml
     tddModules_msgStrobeTddRx.block.yml
-    tddModules_msgStrobeRxTdd.block.yml DESTINATION share/gnuradio/grc/blocks)
+    tddModules_msgStrobeTddTx.block.yml DESTINATION share/gnuradio/grc/blocks)

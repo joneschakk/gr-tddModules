@@ -1,10 +1,10 @@
-id: tddModules_msgStrobeTddRx
-label: msgStrobeTddRx
+id: tddModules_msgStrobeTddTx
+label: msgStrobeTddTx
 category: '[tddModules]'
 
 templates:
   imports: from gnuradio import tddModules
-  make: tddModules.msgStrobeTddRx(${switch_interval}, ${guard_time})
+  make: tddModules.msgStrobeTddTx(${switch_interval}, ${guard_time})
 
 parameters:
 - id: switch_interval
@@ -17,9 +17,9 @@ parameters:
   default: 100
 
 inputs:
-- label: in0
-  domain: stream
-  dtype: byte
+# - label: in0
+#   domain: stream
+#   dtype: byte
 
 outputs:
 - label: sw_st_trigger
@@ -28,5 +28,5 @@ outputs:
 - label: usrp_trigger
   domain: message
   optional: true
-  
+
 file_format: 1

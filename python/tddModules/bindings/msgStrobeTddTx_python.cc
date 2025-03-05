@@ -13,8 +13,8 @@
 /* If manual edits are made, the following tags should be modified accordingly.    */
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
-/* BINDTOOL_HEADER_FILE(msgStrobeTddRx.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(faa10b1c66263417fb97baa1c65f7566)                     */
+/* BINDTOOL_HEADER_FILE(msgStrobeTddTx.h)                                        */
+/* BINDTOOL_HEADER_FILE_HASH(88e25276a82e8ac255d8657c02c9129c)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -23,27 +23,37 @@
 
 namespace py = pybind11;
 
-#include <gnuradio/tddModules/msgStrobeTddRx.h>
+#include <gnuradio/tddModules/msgStrobeTddTx.h>
 // pydoc.h is automatically generated in the build directory
-#include <msgStrobeTddRx_pydoc.h>
+#include <msgStrobeTddTx_pydoc.h>
 
-void bind_msgStrobeTddRx(py::module& m)
+void bind_msgStrobeTddTx(py::module& m)
 {
 
-    using msgStrobeTddRx = ::gr::tddModules::msgStrobeTddRx;
+    using msgStrobeTddTx    = gr::tddModules::msgStrobeTddTx;
 
 
-    py::class_<msgStrobeTddRx,
-               gr::sync_block,
-               gr::block,
-               gr::basic_block,
-               std::shared_ptr<msgStrobeTddRx>>(m, "msgStrobeTddRx", D(msgStrobeTddRx))
+    py::class_<msgStrobeTddTx, gr::block, gr::basic_block,
+        std::shared_ptr<msgStrobeTddTx>>(m, "msgStrobeTddTx", D(msgStrobeTddTx))
 
-        .def(py::init(&msgStrobeTddRx::make),
-             py::arg("switch_interval"),
-             py::arg("guard_time"),
-             D(msgStrobeTddRx, make))
+        .def(py::init(&msgStrobeTddTx::make),
+           D(msgStrobeTddTx,make)
+        )
+        
+
 
 
         ;
+
+
+
+
 }
+
+
+
+
+
+
+
+

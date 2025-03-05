@@ -16,12 +16,12 @@
 
 
 
- static const char *__doc_gr_tddModules_msgStrobeRxTdd = R"doc()doc";
+ static const char *__doc_gr_tddModules_msgStrobeTddTx = R"doc()doc";
 
 
- static const char *__doc_gr_tddModules_msgStrobeRxTdd_msgStrobeRxTdd_0 = R"doc()doc";
+ static const char *__doc_gr_tddModules_msgStrobeTddTx_msgStrobeTddTx_0 = R"doc()doc";
 
 
- static const char *__doc_gr_tddModules_msgStrobeRxTdd_make = R"doc()doc";
+ static const char *__doc_gr_tddModules_msgStrobeTddTx_make = R"doc()doc";
 
   

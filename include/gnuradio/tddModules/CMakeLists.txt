@@ -9,7 +9,6 @@
 ########################################################################
 # Install public header files
 ########################################################################
-install(FILES api.h
-    randomToggleSource.h
+install(FILES api.h    
     msgStrobeTddRx.h
-    msgStrobeRxTdd.h DESTINATION include/gnuradio/tddModules)
+    msgStrobeTddTx.h DESTINATION include/gnuradio/tddModules)

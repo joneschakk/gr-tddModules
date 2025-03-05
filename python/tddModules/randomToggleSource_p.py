@@ -90,7 +90,7 @@ class randomToggleSource_p(gr.sync_block):
                 
                 self.add_item_tag(0, int(offset + noutput_items -1), #(self.tot_sampl-self.counter) - 1,
                     pmt.string_to_symbol(self.eob_tag_key),pmt.PMT_T)
-                output_items[0][:] =  np.random.randint(-128,127,noutput_items, dtype=np.byte)
+                output_items[0] =  np.random.randint(-128,127,int(noutput_items), dtype=np.byte)
             else:
                 noutput_items = 0
             self.enable = 1 #eob sent
@@ -103,6 +103,6 @@ class randomToggleSource_p(gr.sync_block):
                     pmt.PMT_T)
             if noutput_items >= self.tot_sampl:
                 noutput_items = self.tot_sampl
-            output_items[0][:] =  np.random.randint(-128,127,noutput_items, dtype=np.byte)
+            output_items[0][:] =  np.random.randint(-128,127,int(noutput_items), dtype=np.byte)
 
-        return noutput_items #len(output_items[0])
+        return int(noutput_items) #len(output_items[0])

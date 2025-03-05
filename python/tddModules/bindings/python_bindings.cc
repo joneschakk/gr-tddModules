@@ -21,9 +21,8 @@ namespace py = pybind11;
 // Please do not delete
 /**************************************/
 // BINDING_FUNCTION_PROTOTYPES(
-    void bind_randomToggleSource(py::module& m);
     void bind_msgStrobeTddRx(py::module& m);
-    void bind_msgStrobeRxTdd(py::module& m);
+    void bind_msgStrobeTddTx(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -52,8 +51,7 @@ PYBIND11_MODULE(tddModules_python, m)
     // Please do not delete
     /**************************************/
     // BINDING_FUNCTION_CALLS(
-    bind_randomToggleSource(m);
     bind_msgStrobeTddRx(m);
-    bind_msgStrobeRxTdd(m);
+    bind_msgStrobeTddTx(m);
     // ) END BINDING_FUNCTION_CALLS
 }

@@ -12,9 +12,8 @@
 include(GrPlatform) #define LIB_SUFFIX
 
 list(APPEND tddModules_sources
-    randomToggleSource_impl.cc
     msgStrobeTddRx_impl.cc
-    msgStrobeRxTdd_impl.cc)
+    msgStrobeTddTx_impl.cc)
 
 set(tddModules_sources
     "${tddModules_sources}"
