@@ -17,7 +17,7 @@ class msgStrobeTddRx_p(gr.sync_block):
     """
     docstring for block msgStrobeTddRx_p
     """
-    def __init__(self, switch_interval = 2, guard_time = 0.3):
+    def __init__(self, switch_interval = 1, guard_time = 0.1):
         gr.sync_block.__init__(self,
             name="msgStrobeTddRx_p",
             in_sig=[np.byte],
