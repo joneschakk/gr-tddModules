@@ -1,0 +1,44 @@
+# Copyright 2020 Free Software Foundation, Inc.
+#
+# This file is part of GNU Radio
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+########################################################################
+# Check if there is C++ code at all
+########################################################################
+if(NOT tddModules_sources)
+    message(STATUS "No C++ sources... skipping python bindings")
+    return()
+endif(NOT tddModules_sources)
+
+########################################################################
+# Check for pygccxml
+########################################################################
+gr_python_check_module_raw("pygccxml" "import pygccxml" PYGCCXML_FOUND)
+
+include(GrPybind)
+
+########################################################################
+# Python Bindings
+########################################################################
+
+list(APPEND tddModules_python_files
+    randomToggleSource_python.cc
+    msgStrobeTddRx_python.cc
+    msgStrobeRxTdd_python.cc python_bindings.cc)
+
+gr_pybind_make_oot(tddModules ../../.. gr::tddModules "${tddModules_python_files}")
+
+# copy bindings extension for use in QA test module
+add_custom_command(
+    TARGET tddModules_python
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:tddModules_python>
+            ${PROJECT_BINARY_DIR}/test_modules/gnuradio/tddModules/)
+
+install(
+    TARGETS tddModules_python
+    DESTINATION ${GR_PYTHON_DIR}/gnuradio/tddModules
+    COMPONENT pythonapi)
