@@ -26,7 +26,9 @@ include(GrPybind)
 
 list(APPEND tddModules_python_files    
     msgStrobeTddRx_python.cc
-    msgStrobeTddTx_python.cc python_bindings.cc)
+    msgStrobeTddTx_python.cc
+    nullSrcLat_python.cc
+    nullSinkLat_python.cc python_bindings.cc)
 
 gr_pybind_make_oot(tddModules ../../.. gr::tddModules "${tddModules_python_files}")
 

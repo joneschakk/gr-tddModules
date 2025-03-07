@@ -10,10 +10,15 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-
+include(FindLTTngUST REQUIRED) #bastin
+# find_package(LTTngUST REQUIRED)
+include_directories(.)
 list(APPEND tddModules_sources
     msgStrobeTddRx_impl.cc
-    msgStrobeTddTx_impl.cc)
+    msgStrobeTddTx_impl.cc
+    nullSrcLat_impl.cc
+    tp.cpp
+    nullSinkLat_impl.cc)
 
 set(tddModules_sources
     "${tddModules_sources}"
@@ -24,11 +29,12 @@ if(NOT tddModules_sources)
 endif(NOT tddModules_sources)
 
 add_library(gnuradio-tddModules SHARED ${tddModules_sources})
-target_link_libraries(gnuradio-tddModules gnuradio::gnuradio-runtime)
+target_link_libraries(gnuradio-tddModules gnuradio::gnuradio-runtime LTTng::UST)
 target_include_directories(
     gnuradio-tddModules
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<INSTALL_INTERFACE:include>)
+    # PRIVATE ${LTTNGUST_INCLUDE_DIRS})
 set_target_properties(gnuradio-tddModules PROPERTIES DEFINE_SYMBOL "gnuradio_tddModules_EXPORTS")
 
 if(APPLE)
@@ -40,7 +46,7 @@ endif(APPLE)
 # Install built library files
 ########################################################################
 include(GrMiscUtils)
-gr_library_foo(gnuradio-tddModules)
+gr_library_foo(gnuradio-tddModules LTTngUST)
 
 ########################################################################
 # Print summary

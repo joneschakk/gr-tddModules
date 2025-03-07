@@ -11,4 +11,6 @@ install(FILES
     tddModules_randomToggleSource_p.block.yml
     tddModules_msgStrobeTddRx_p.block.yml
     tddModules_msgStrobeTddRx.block.yml
-    tddModules_msgStrobeTddTx.block.yml DESTINATION share/gnuradio/grc/blocks)
+    tddModules_msgStrobeTddTx.block.yml
+    tddModules_nullSrcLat.block.yml
+    tddModules_nullSinkLat.block.yml DESTINATION share/gnuradio/grc/blocks)
