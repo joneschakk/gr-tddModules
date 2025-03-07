@@ -27,7 +27,7 @@ class randomToggleSource_p(gr.sync_block):
     """
     docstring for block randomToggleSource_p
     """
-    def __init__(self, tx_time_interval = 1.0, samples_per_sec = 1e6):
+    def __init__(self, tx_time_interval = 1.0, samples_per_sec = 1e6, mode = 1):
         gr.sync_block.__init__(self,
             name="randomToggleSource_p",
             in_sig=None,
@@ -41,7 +41,8 @@ class randomToggleSource_p(gr.sync_block):
         self.eob_tag_key = "tx_eob"
         self.sob_tag_key = "tx_sob"
         self.time_tag_key = "tx_time"
-
+        if mode:
+            self.enable = 2
         self.msg_port_name = "src_pause"
         self.message_port_register_in(pmt.intern(self.msg_port_name))
         self.set_msg_handler(pmt.intern(self.msg_port_name),self.handler)
@@ -97,7 +98,7 @@ class randomToggleSource_p(gr.sync_block):
             self.counter = 0
         else:
             if self.counter == noutput_items:
-                print("tx-rndsrc-sob",self.counter,", ",self.enable)
+                # print("tx-rndsrc-sob",self.counter,", ",self.enable)
                 self.add_item_tag(0, offset,
                     pmt.string_to_symbol(self.sob_tag_key),
                     pmt.PMT_T)
