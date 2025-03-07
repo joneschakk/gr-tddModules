@@ -11,4 +11,6 @@
 ########################################################################
 install(FILES api.h    
     msgStrobeTddRx.h
-    msgStrobeTddTx.h DESTINATION include/gnuradio/tddModules)
+    msgStrobeTddTx.h
+    nullSrcLat.h
+    nullSinkLat.h DESTINATION include/gnuradio/tddModules)
