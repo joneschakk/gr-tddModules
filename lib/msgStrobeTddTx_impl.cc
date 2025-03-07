@@ -14,16 +14,16 @@ namespace gr {
 namespace tddModules {
 
 using input_type = gr_complex;
-msgStrobeTddTx::sptr msgStrobeTddTx::make(long switch_interval, long guard_time)
+msgStrobeTddTx::sptr msgStrobeTddTx::make(long switch_interval, long guard_time)//, int start_mode)
 {
-    return gnuradio::make_block_sptr<msgStrobeTddTx_impl>(switch_interval, guard_time);
+    return gnuradio::make_block_sptr<msgStrobeTddTx_impl>(switch_interval, guard_time);//, start_mode);
 }
 
 
 /*
  * The private constructor
  */
-msgStrobeTddTx_impl::msgStrobeTddTx_impl(long switch_interval, long guard_time)
+msgStrobeTddTx_impl::msgStrobeTddTx_impl(long switch_interval = 1000, long guard_time = 100)
     : gr::block("msgStrobeTddTx",
                 gr::io_signature::make(0, 0, 0),
                 gr::io_signature::make(0, 0, 0)),
@@ -62,6 +62,7 @@ void msgStrobeTddTx_impl::run()
     stream_val = pmt::make_dict();
     stream_val = pmt::dict_add(stream_val,pmt::intern("stream_now"),
                     pmt::PMT_T);
+    // message_port_pub(d_port_src,pmt::intern("SWITCH"));   //debug with python time sync
     while(!d_finished){
         std::this_thread::sleep_for(
             std::chrono::milliseconds(static_cast<long>(d_period_ms-d_guard_ms)));

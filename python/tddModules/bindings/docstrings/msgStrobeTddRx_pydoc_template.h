@@ -14,11 +14,9 @@
   and will be overwritten during the build process
  */
 
+static const char *__doc_gr_tddModules_msgStrobeTddRx = R"doc()doc";
 
-static const char* __doc_gr_tddModules_msgStrobeTddRx = R"doc()doc";
+static const char *__doc_gr_tddModules_msgStrobeTddRx_msgStrobeTddRx =
+    R"doc()doc";
 
-
-static const char* __doc_gr_tddModules_msgStrobeTddRx_msgStrobeTddRx_0 = R"doc()doc";
-
-
-static const char* __doc_gr_tddModules_msgStrobeTddRx_make = R"doc()doc";
+static const char *__doc_gr_tddModules_msgStrobeTddRx_make = R"doc()doc";

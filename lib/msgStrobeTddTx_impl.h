@@ -28,7 +28,7 @@ private:
     void run();
 
 public:
-    msgStrobeTddTx_impl(long switch_interval, long guard_time);
+    msgStrobeTddTx_impl(long switch_interval, long guard_time);//, int start_mode);
     ~msgStrobeTddTx_impl();
     bool start();
     bool stop();  

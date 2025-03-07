@@ -32,7 +32,7 @@ public:
      * class. tddModules::msgStrobeTddTx::make is the public interface for
      * creating new instances.
      */
-    static sptr make(long switch_interval, long guard_time);
+    static sptr make(long switch_interval, long guard_time);//, int start_mode);
 };
 
 } // namespace tddModules

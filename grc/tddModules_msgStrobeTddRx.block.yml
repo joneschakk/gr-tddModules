@@ -16,12 +16,17 @@ parameters:
   dtype: int
   default: 100
 
+
 inputs:
 - label: in0
   domain: stream
   dtype: byte
 
 outputs:
+# - label: out0
+#   domain: stream
+#   dtype: byte
+
 - label: sw_st_trigger
   domain: message
   optional: true

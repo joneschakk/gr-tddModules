@@ -15,6 +15,10 @@ parameters:
   label: Guard time(ms)
   dtype: int
   default: 100
+# - id: start_mode
+#   label: Start mode
+#   dtype: int
+#   default: 0
 
 inputs:
 # - label: in0
