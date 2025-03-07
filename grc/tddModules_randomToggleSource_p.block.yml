@@ -4,7 +4,7 @@ category: '[tddModules]'
 
 templates:
   imports: from gnuradio import tddModules
-  make: tddModules.randomToggleSource_p(${tx_time_interval}, ${samples_per_sec}, ${mode})
+  make: tddModules.randomToggleSource_p(${tx_time_interval}) #, ${samples_per_sec}, ${mode})
 
 parameters:
 - id: tx_time_interval
@@ -15,10 +15,10 @@ parameters:
   label: Samples per sec
   dtype: float
   default: 1e6
-- id: mode
-  label: TX mode(1)
-  dtype: int
-  default: 1
+# - id: mode
+#   label: TX mode(1)
+#   dtype: int
+#   default: 1
 
 inputs:
 - label: src_pause
