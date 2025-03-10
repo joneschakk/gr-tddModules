@@ -10,6 +10,7 @@
 import numpy as np
 from gnuradio import gr
 import pmt
+import time
 
 #Atx 1	    	Brx 0
 #Atx 2/1		Brx 0
@@ -27,7 +28,7 @@ class randomToggleSource_p(gr.sync_block):
     """
     docstring for block randomToggleSource_p
     """
-    def __init__(self, tx_time_interval = 1.0, samples_per_sec = 1e6)#, mode = 1):
+    def __init__(self, tx_time_interval = 1.0, samples_per_sec = 1e6): #, mode = 1):
         gr.sync_block.__init__(self,
             name="randomToggleSource_p",
             in_sig=None,
@@ -78,32 +79,46 @@ class randomToggleSource_p(gr.sync_block):
         out = output_items[0]
         noutput_items = len(out)
         offset = self.nitems_written(0)
-        self.counter += noutput_items
+        # self.counter += noutput_items
+
+        if not self.counter:
+            # noutput_items = 
+            # print("tx-rndsrc-sob",self.counter,", ",self.enable, offset)
+            if noutput_items >= self.tot_sampl:
+                noutput_items = self.tot_sampl   
+            
+            self.add_item_tag(0, offset,
+                pmt.string_to_symbol(self.sob_tag_key),
+                pmt.from_double(time.time())) #pmt.PMT_T)
+            output_items[0] =  np.random.randint(-128,127,int(noutput_items), dtype=np.byte)
+            self.counter += noutput_items
         
-        if (self.counter) >= self.tot_sampl or self.enable == 3:
+        elif (self.counter+noutput_items) >= self.tot_sampl or self.enable == 3:
             # print("tx-rndsrc-eob",self.counter,", ",self.enable)
             # output_items[0][:] =  np.ones(noutput_items, dtype=np.byte) #(self.tot_sampl-self.counter), dtype=np.byte)
             if offset:                
                 if self.enable == 3:
                     noutput_items = 1
                 else:
-                    noutput_items -= (self.counter - self.tot_sampl)
+                    noutput_items =self.tot_sampl- (self.counter)
                 
                 self.add_item_tag(0, int(offset + noutput_items -1), #(self.tot_sampl-self.counter) - 1,
-                    pmt.string_to_symbol(self.eob_tag_key),pmt.PMT_T)
+                    pmt.string_to_symbol(self.eob_tag_key),pmt.from_double(time.time())) #pmt.PMT_T)
                 output_items[0] =  np.random.randint(-128,127,int(noutput_items), dtype=np.byte)
+                # print("tx-rndsrc-eob",self.counter,", ",self.enable)
             else:
                 noutput_items = 0
             self.enable = 1 #eob sent
             self.counter = 0
-        else:
-            if self.counter == noutput_items:
-                # print("tx-rndsrc-sob",self.counter,", ",self.enable)
-                self.add_item_tag(0, offset,
-                    pmt.string_to_symbol(self.sob_tag_key),
-                    pmt.PMT_T)
-            if noutput_items >= self.tot_sampl:
-                noutput_items = self.tot_sampl
-            output_items[0][:] =  np.random.randint(-128,127,int(noutput_items), dtype=np.byte)
-
+        # else:
+        #     if self.counter == noutput_items:
+        #         print("tx-rndsrc-sob",self.counter,", ",self.enable)
+        #         self.add_item_tag(0, offset,
+        #             pmt.string_to_symbol(self.sob_tag_key),
+        #             pmt.PMT_T)
+        #     if noutput_items >= self.tot_sampl:
+        #         noutput_items = self.tot_sampl
+        #     output_items[0][:] =  np.random.randint(-128,127,int(noutput_items), dtype=np.byte)
+        
+        
         return int(noutput_items) #len(output_items[0])

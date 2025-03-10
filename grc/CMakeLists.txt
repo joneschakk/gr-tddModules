@@ -5,7 +5,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-
 install(FILES
     
     tddModules_randomToggleSource_p.block.yml
@@ -13,4 +12,5 @@ install(FILES
     tddModules_msgStrobeTddRx.block.yml
     tddModules_msgStrobeTddTx.block.yml
     tddModules_nullSrcLat.block.yml
-    tddModules_nullSinkLat.block.yml DESTINATION share/gnuradio/grc/blocks)
+    tddModules_nullSinkLat.block.yml
+    DESTINATION share/gnuradio/grc/blocks)
