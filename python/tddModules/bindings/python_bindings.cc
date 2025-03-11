@@ -25,6 +25,8 @@ namespace py = pybind11;
     void bind_msgStrobeTddTx(py::module& m);
     void bind_nullSrcLat(py::module& m);
     void bind_nullSinkLat(py::module& m);
+    void bind_randomSrcTdd(py::module& m);
+    void bind_latTagSink(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -57,5 +59,7 @@ PYBIND11_MODULE(tddModules_python, m)
     bind_msgStrobeTddTx(m);
     bind_nullSrcLat(m);
     bind_nullSinkLat(m);
+    bind_randomSrcTdd(m);
+    bind_latTagSink(m);
     // ) END BINDING_FUNCTION_CALLS
 }

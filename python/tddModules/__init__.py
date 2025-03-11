@@ -21,5 +21,5 @@ except ModuleNotFoundError:
 
 # import any pure python here
 from .randomToggleSource_p import randomToggleSource_p
-from .msgStrobeTddRx_p import msgStrobeTddRx_p
+
 #

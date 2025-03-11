@@ -14,4 +14,5 @@ install(FILES api.h
     msgStrobeTddTx.h
     nullSrcLat.h
     nullSinkLat.h
-    DESTINATION include/gnuradio/tddModules)
+    randomSrcTdd.h
+    latTagSink.h DESTINATION include/gnuradio/tddModules)

@@ -19,7 +19,8 @@ list(APPEND tddModules_sources
     nullSrcLat_impl.cc
     tp.cpp
     nullSinkLat_impl.cc
-    )
+    randomSrcTdd_impl.cc
+    latTagSink_impl.cc )
 
 set(tddModules_sources
     "${tddModules_sources}"
@@ -47,7 +48,7 @@ endif(APPLE)
 # Install built library files
 ########################################################################
 include(GrMiscUtils)
-# gr_library_foo(gnuradio-tddModules LTTngUST)
+gr_library_foo(gnuradio-tddModules) # LTTngUST)
 
 ########################################################################
 # Print summary

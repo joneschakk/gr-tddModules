@@ -21,7 +21,7 @@ add_subdirectory(bindings)
 ########################################################################
 gr_python_install(FILES __init__.py
     randomToggleSource_p.py
-    msgStrobeTddRx_p.py DESTINATION ${GR_PYTHON_DIR}/gnuradio/tddModules)
+    DESTINATION ${GR_PYTHON_DIR}/gnuradio/tddModules)
 
 ########################################################################
 # Handle the unit tests
