@@ -20,7 +20,7 @@ private:
         d_start_off,d_end_off;
 
 public:
-    latTagSink_impl();
+    latTagSink_impl(size_t item_size);
     ~latTagSink_impl();
 
     // Where all the action really happens

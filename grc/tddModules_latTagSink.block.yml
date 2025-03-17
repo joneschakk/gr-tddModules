@@ -4,7 +4,7 @@ category: '[tddModules]'
 
 templates:
   imports: from gnuradio import tddModules
-  make: tddModules.latTagSink()
+  make: tddModules.latTagSink(${type.size})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -13,6 +13,14 @@ templates:
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #     * default
 parameters:
+- id: type
+  label: Input Type
+  dtype: enum
+  options: [complex, float, int, short, byte]
+  option_attributes:
+      size: [gr.sizeof_gr_complex, gr.sizeof_float, gr.sizeof_int, gr.sizeof_short,
+          gr.sizeof_char]
+  hide: part
 # - id: parametername_replace_me
 #   label: FIX ME
 #   dtype: string
@@ -29,9 +37,9 @@ parameters:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
-#- label: ...
-#  domain: ...
-#  dtype: ...
+- label: in1
+  domain: stream
+  dtype: ${type}
 #  vlen: ...
 #  optional: ...
 

@@ -30,7 +30,7 @@ randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_se
     d_enable(0),
     d_counter(0)
 {
-    d_total_samples = tx_time_interval*samples_per_sec;
+    d_total_samples = 40000;//tx_time_interval*samples_per_sec;
     message_port_register_in(d_port_name);
     set_msg_handler(d_port_name,
         [this](const pmt::pmt_t& msg) { handler(msg); });
@@ -71,47 +71,93 @@ int randomSrcTdd_impl::work(int noutput_items,
     int offset = nitems_written(0);
     std::uint8_t* out = (std::uint8_t*) output_items[0];
     srand(time(0));
-    if((d_counter)&&(((d_counter+noutput_items)>=d_total_samples)||(d_enable == 3))){
-        if(d_enable == 3){
-            noutput_items = 1;
-        }else{
-            noutput_items = d_total_samples - d_counter;
-        }
-        auto time_now = (float)gr::high_res_timer_now()/
-                               (float)gr::high_res_timer_tps();
-        add_item_tag(0,noutput_items,eob_key,pmt::from_float(time_now));
-        for(auto i=0;i<noutput_items;i++){
-            *(out++)=(u_int8_t)rand()%255;
-        }
+
+    if(d_enable == 3){
         std::cout<<"Yo EOB "<<d_enable<<" "<<d_counter<<"\n";
+        noutput_items = 1;
         d_enable = 1;
         d_counter = 0;
-    }else {
-        if(!d_counter){
-            auto time_now = (float)gr::high_res_timer_now()/
+    }else if(!d_counter){ //start of a burst
+        auto time_now = (float)gr::high_res_timer_now()/
                                 (float)gr::high_res_timer_tps();
-            add_item_tag(0,0,sob_key,pmt::from_float(time_now));//pmt::PMT_T
-            d_counter+=noutput_items;
-            std::cout<<"Tot samp "<<d_total_samples<<"\n";
-            if(noutput_items>=d_total_samples){
-                noutput_items = d_total_samples;
-                add_item_tag(0,noutput_items-1,eob_key,pmt::from_float(time_now));//pmt::PMT_T
-                d_counter = 0;
-                d_enable = 1;
-                std::cout<<"Yo SOB-EOB "<<d_enable<<" "<<d_counter<<"\n";
-            }else{
-                std::cout<<"Yo SOB "<<d_enable<<" "<<d_counter<<"\n";
-            }
-        }else{
-            d_counter+=noutput_items;
-            std::cout<<"Yo normie "<<d_enable<<" "<<d_counter<<"\n";
+        add_item_tag(0,(offset),sob_key,pmt::from_float(time_now));//pmt::PMT_T
+        
+        if((d_counter+noutput_items)>=d_total_samples){ //tx time is so low that the num samples<buffer size
+            noutput_items = d_total_samples;            //sob and eob are in one burst
+            std::cout<<"Yo SOB-EOB "<<time_now<<", "<<d_counter<<", "<<noutput_items<<", "<<offset<<"\n";
+            d_enable = 1;
+            d_counter = 0;
         }
-        for(auto i=0;i<noutput_items;i++){
-            *(out++)=(u_int8_t)rand()%255;
-        } 
-        
-        
+        else{
+            d_counter+=noutput_items;
+            std::cout<<"Yo SOB "<<d_enable<<" "<<d_counter<<" "<<offset<<"\n";
+        }
+        std::cout<<"Tot samp "<<d_total_samples<<"\n";
     }
+    else if((d_counter+noutput_items)>=d_total_samples){
+        noutput_items = d_total_samples - d_counter;
+        std::cout<<"Yo FullEOB "<<d_enable<<" "<<d_counter<<", "<<noutput_items<<" "<<offset<<"\n";
+        d_enable = 1;
+        d_counter = 0;
+    }else{
+        d_counter+=noutput_items; //in between saob and eob, where burst size>>buffer
+        std::cout<<"Yo normie "<<d_enable<<" "<<d_counter<<"\n";
+    }
+    
+    if(d_enable == 1){ //send eob
+        auto time_now = (float)gr::high_res_timer_now()/
+                                (float)gr::high_res_timer_tps();
+        add_item_tag(0,offset+(noutput_items-1),eob_key,pmt::from_float(time_now));
+        std::cout<<"Yo EEOB "<<d_enable<<" "<<d_counter<<", "<<time_now<<"\n";
+    }
+
+    //do the copy
+    for(auto i=0;i<noutput_items;i++){
+        *(out++)=(u_int8_t)rand()%255;
+    }
+
+
+    // if((d_counter)&&(((d_counter+noutput_items)>=d_total_samples)||(d_enable == 3))){
+    //     if(d_enable == 3){
+    //         noutput_items = 1;
+    //     }else{
+    //         noutput_items = d_total_samples - d_counter;
+    //     }
+    //     auto time_now = (float)gr::high_res_timer_now()/
+    //                            (float)gr::high_res_timer_tps();
+    //     add_item_tag(0,noutput_items,eob_key,pmt::from_float(time_now));
+    //     for(auto i=0;i<noutput_items;i++){
+    //         *(out++)=(u_int8_t)rand()%255;
+    //     }
+    //     std::cout<<"Yo EOB "<<d_enable<<" "<<d_counter<<"\n";
+    //     d_enable = 1;
+    //     d_counter = 0;
+    // }else {
+    //     if(!d_counter){
+    //         auto time_now = (float)gr::high_res_timer_now()/
+    //                             (float)gr::high_res_timer_tps();
+    //         add_item_tag(0,0,sob_key,pmt::from_float(time_now));//pmt::PMT_T
+    //         d_counter+=noutput_items;
+    //         std::cout<<"Tot samp "<<d_total_samples<<"\n";
+    //         if(noutput_items>=d_total_samples){
+    //             noutput_items = d_total_samples;
+    //             add_item_tag(0,noutput_items-1,eob_key,pmt::from_float(time_now));//pmt::PMT_T
+    //             d_counter = 0;
+    //             d_enable = 1;
+    //             std::cout<<"Yo SOB-EOB "<<d_enable<<" "<<d_counter<<"\n";
+    //         }else{
+    //             std::cout<<"Yo SOB "<<d_enable<<" "<<d_counter<<"\n";
+    //         }
+    //     }else{
+    //         d_counter+=noutput_items;
+    //         std::cout<<"Yo normie "<<d_enable<<" "<<d_counter<<"\n";
+    //     }
+    //     for(auto i=0;i<noutput_items;i++){
+    //         *(out++)=(u_int8_t)rand()%255;
+    //     } 
+        
+        
+    // }
 
     return noutput_items;
 }

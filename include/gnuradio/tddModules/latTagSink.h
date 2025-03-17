@@ -32,7 +32,7 @@ public:
      * class. tddModules::latTagSink::make is the public interface for
      * creating new instances.
      */
-    static sptr make();
+    static sptr make(size_t item_size);
 };
 
 } // namespace tddModules
