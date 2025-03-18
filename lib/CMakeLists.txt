@@ -21,7 +21,8 @@ list(APPEND tddModules_sources
     nullSinkLat_impl.cc
     randomSrcTdd_impl.cc
     latTagSink_impl.cc
-    tddTagStreamMux_impl.cc )
+    tddTagStreamMux_impl.cc
+    tdd_ofdm_cyclic_prefixer_impl.cc )
 
 set(tddModules_sources
     "${tddModules_sources}"

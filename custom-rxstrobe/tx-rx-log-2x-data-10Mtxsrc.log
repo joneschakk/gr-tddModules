@@ -1,0 +1,719 @@
+top_block_impl :debug: Using default scheduler "TPB"
+Start thread
+In thread
+[WARNING] [0/Radio#0] Attempting to set tick rate to 0. Skipping.
+gr::vmcircbuf :error: shmat (3): Invalid argument
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 240
+Uusrp_sink :error: In the last 6415 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 19923120
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 39846080
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 59768960
+Uusrp_sink :error: In the last 3849 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 79691920
+Uusrp_sink :error: In the last 6056 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 99614800
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 119537760
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 139460640
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 159383600
+Uusrp_sink :error: In the last 6061 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 179306480
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 199229440
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 219152320
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 239075280
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 258998240
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 278921120
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 298844080
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 318767280
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 338690160
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 358613120
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 378536000
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 398458960
+Uusrp_sink :error: In the last 6063 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 418381920
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 438304800
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 458227760
+Uusrp_sink :error: In the last 3858 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 478150640
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 498073600
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 517996480
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 537919440
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 557842320
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 577765280
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 597688160
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 617611440
+Uusrp_sink :error: In the last 3859 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 637534320
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 657457280
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 677380160
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 697303120
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 717226000
+Uusrp_sink :error: In the last 6064 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 737148960
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 757071840
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 776994800
+Uusrp_sink :error: In the last 3859 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 796917760
+Uusrp_sink :error: In the last 6061 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 816840640
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 836763600
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 856686480
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 876609440
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 896532320
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 916455520
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 936378480
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 956301440
+Uusrp_sink :error: In the last 6061 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 976224320
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 996147280
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1016070160
+Uusrp_sink :error: In the last 3859 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1035993120
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1055916000
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+tx-rndsrc-sob 8388608 ,  2
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1075838960
+usrp_sink :error: Sink: eob no 1095761840
+Uusrp_sink :error: In the last 10068 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1115684800
+Uusrp_sink :error: In the last 6062 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1135607680
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1155530640
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1175453520
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1195376480
+Uusrp_sink :error: In the last 6061 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1215299680
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1235222640
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1255145520
+Uusrp_sink :error: In the last 3860 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1275068480
+Uusrp_sink :error: In the last 6061 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1294991360
+Uusrp_sink :error: In the last 3888 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1314914320
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1334837200
+Uusrp_sink :error: In the last 3859 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1354760160
+Uusrp_sink :error: In the last 6063 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1374683120
+Uusrp_sink :error: In the last 3889 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+************************************
+tx-rndsrc msg 0 ,  1 ,  SWITCH
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . start_cont)))
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc msg 0 ,  0 ,  STOP
+******* MESSAGE DEBUG PRINT ********
+((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+************************************
+usrp_source :error: Processing command message ((stream_cmd (stream_now . #t) (stream_mode . stop_cont)))
+tx-rndsrc msg 0 ,  0 ,  SWITCH
+usrp_source :error: dpatch_cmd_handler NO key stream_cmd
+tx-rndsrc-sob 8388608 ,  2
+tx-rndsrc-eob 16777215 ,  2
+usrp_sink :error: Sink: sob no 1394606000
+Uusrp_sink :error: In the last 6208 ms, 1 underflows occurred.
+usrp_sink :error: Sink: eob no 1414528960
+Uusrp_sink :error: In the last 3859 ms, 1 underflows occurred.
+tx-rndsrc msg 0 ,  1 ,  STOP
+

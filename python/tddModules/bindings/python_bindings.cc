@@ -28,6 +28,7 @@ namespace py = pybind11;
     void bind_randomSrcTdd(py::module& m);
     void bind_latTagSink(py::module& m);
     void bind_tddTagStreamMux(py::module& m);
+    void bind_tdd_ofdm_cyclic_prefixer(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -63,5 +64,6 @@ PYBIND11_MODULE(tddModules_python, m)
     bind_randomSrcTdd(m);
     bind_latTagSink(m);
     bind_tddTagStreamMux(m);
+    bind_tdd_ofdm_cyclic_prefixer(m);
     // ) END BINDING_FUNCTION_CALLS
 }
