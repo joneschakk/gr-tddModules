@@ -13,4 +13,5 @@ install(FILES
     tddModules_nullSrcLat.block.yml
     tddModules_nullSinkLat.block.yml
     tddModules_randomSrcTdd.block.yml
-    tddModules_latTagSink.block.yml DESTINATION share/gnuradio/grc/blocks)
+    tddModules_latTagSink.block.yml
+    tddModules_tddTagStreamMux.block.yml DESTINATION share/gnuradio/grc/blocks)

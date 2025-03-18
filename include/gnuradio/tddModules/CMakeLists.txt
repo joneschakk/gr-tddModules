@@ -15,4 +15,5 @@ install(FILES api.h
     nullSrcLat.h
     nullSinkLat.h
     randomSrcTdd.h
-    latTagSink.h DESTINATION include/gnuradio/tddModules)
+    latTagSink.h
+    tddTagStreamMux.h DESTINATION include/gnuradio/tddModules)

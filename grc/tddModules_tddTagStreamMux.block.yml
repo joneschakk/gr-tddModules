@@ -1,0 +1,50 @@
+id: tddModules_tddTagStreamMux
+label: tddTagStreamMux
+category: '[tddModules]'
+
+templates:
+  imports: from gnuradio import tddModules
+  make: tddModules.tddTagStreamMux(${type.size}*${vlen}, ${lengthtagname}, ${tag_preserve_head_pos})
+
+parameters:
+-   id: type
+    label: IO Type
+    dtype: enum
+    options: [complex, float, int, short, byte]
+    option_attributes:
+        size: [gr.sizeof_gr_complex, gr.sizeof_float, gr.sizeof_int, gr.sizeof_short,
+            gr.sizeof_char]
+    hide: part
+-   id: ninputs
+    label: Number of inputs
+    dtype: int
+    hide: part
+-   id: lengthtagname
+    label: Length tag names
+    dtype: string
+-   id: vlen
+    label: Vector Length
+    dtype: int
+    default: '1'
+    hide: ${ 'part' if vlen == 1 else 'none' }
+-   id: tag_preserve_head_pos
+    label: 'Tags: Preserve head position on input'
+    dtype: int
+    default: '0'
+    hide: part
+inputs:
+- domain: stream
+  dtype: ${type}
+  vlen: ${vlen}
+  multiplicity: ${ninputs}
+
+outputs:
+- label: out1
+  domain: stream
+  dtype: ${type}
+  vlen: ${vlen}
+  
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1
