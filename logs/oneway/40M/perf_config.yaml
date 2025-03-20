@@ -1,6 +1,6 @@
 #log or plot
-type_of_operation: log
-logfile_path: log-40M-oneway-rx1.log
+type_of_operation: plot
+logfile_path: log-40M-oneway-rx.log
 
 perf_logger:
   #select between avg, inst, var or all

@@ -13,27 +13,34 @@
 namespace gr {
 namespace tddModules {
 
-randomSrcTdd::sptr randomSrcTdd::make(float tx_time_interval, long samples_per_sec)
+randomSrcTdd::sptr randomSrcTdd::make(float tx_time_interval, long samples_per_sec, int mode)
 {
     return gnuradio::make_block_sptr<randomSrcTdd_impl>(tx_time_interval,
-                                                        samples_per_sec);
+                                                        samples_per_sec, mode);
 }
 
 
 /*
  * The private constructor
  */
-randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_sec)
+randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_sec, int mode)
     : gr::sync_block("randomSrcTdd",
                      gr::io_signature::make(0, 0, 0),
                      gr::io_signature::make(1, 1, sizeof(std::uint8_t))),
     d_enable(0),
-    d_counter(0)
+    d_counter(0),
+    send_counter_data(0),
+    d_mode(mode)
 {
     d_total_samples = tx_time_interval*samples_per_sec;
     message_port_register_in(d_port_name);
     set_msg_handler(d_port_name,
         [this](const pmt::pmt_t& msg) { handler(msg); });
+
+    if(d_mode)
+        d_enable = 2;
+    else
+        d_enable = 0;
 }
 
 /*
@@ -118,9 +125,14 @@ int randomSrcTdd_impl::work(int noutput_items,
         // std::cout<<"Yo EEOB "<<d_enable<<" "<<d_counter<<", "<<time_now<<"\n";
     }
 
+    
     //do the copy
     for(auto i=0;i<noutput_items;i++){
-        *(out++)=(u_int8_t)rand()%255;
+        *(out++)=(u_int8_t)(send_counter_data++);
+        // std::cout<<"Yo "<<(int)send_counter_data<<" ";
+        if(send_counter_data > 255)
+            send_counter_data = 0;
+        // *(out++)=(u_int8_t)rand()%255;
     }
 
 

@@ -15,4 +15,5 @@ install(FILES
     tddModules_randomSrcTdd.block.yml
     tddModules_latTagSink.block.yml
     tddModules_tddTagStreamMux.block.yml
-    tddModules_tdd_ofdm_cyclic_prefixer.block.yml DESTINATION share/gnuradio/grc/blocks)
+    tddModules_tdd_ofdm_cyclic_prefixer.block.yml
+    tddModules_tddFileSource.block.yml DESTINATION share/gnuradio/grc/blocks)

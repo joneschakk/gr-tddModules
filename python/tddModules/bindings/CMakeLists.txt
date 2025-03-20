@@ -31,7 +31,8 @@ list(APPEND tddModules_python_files
     randomSrcTdd_python.cc
     latTagSink_python.cc
     tddTagStreamMux_python.cc
-    tdd_ofdm_cyclic_prefixer_python.cc python_bindings.cc)
+    tdd_ofdm_cyclic_prefixer_python.cc
+    tddFileSource_python.cc python_bindings.cc)
 
 gr_pybind_make_oot(tddModules ../../.. gr::tddModules "${tddModules_python_files}")
 

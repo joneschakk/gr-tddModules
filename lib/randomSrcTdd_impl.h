@@ -23,8 +23,10 @@ private:
     const pmt::pmt_t d_port_name = pmt::intern("src_trig");
     pmt::pmt_t time_key;
     void handler(pmt::pmt_t msg);
+    u_int8_t send_counter_data;
+    int d_mode;
 public:
-    randomSrcTdd_impl(float tx_time_interval, long samples_per_sec);
+    randomSrcTdd_impl(float tx_time_interval, long samples_per_sec, int mode);
     ~randomSrcTdd_impl();
 
     // Where all the action really happens
