@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(tddFileSource.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(91fc98318fae201dc87b0b361391a7d8)                     */
+/* BINDTOOL_HEADER_FILE_HASH(81ad6a5845dab677694bf71deabfbe03)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -30,30 +30,49 @@ namespace py = pybind11;
 void bind_tddFileSource(py::module& m)
 {
 
-    using tddFileSource    = gr::tddModules::tddFileSource;
+    using tddFileSource = ::gr::tddModules::tddFileSource;
 
 
-    py::class_<tddFileSource, gr::sync_block, gr::block, gr::basic_block,
-        std::shared_ptr<tddFileSource>>(m, "tddFileSource", D(tddFileSource))
+    py::class_<tddFileSource,
+               gr::sync_block,
+               gr::block,
+               gr::basic_block,
+               std::shared_ptr<tddFileSource>>(m, "tddFileSource", D(tddFileSource))
 
         .def(py::init(&tddFileSource::make),
-           D(tddFileSource,make)
-        )
-        
+             py::arg("itemsize"),
+             py::arg("filename"),
+             py::arg("repeat") = false,
+             py::arg("offset") = 0,
+             py::arg("len") = 0,
+             py::arg("tx_time") = 1.,
+             py::arg("sampl_rate") = 1000000,
+             D(tddFileSource, make))
 
 
+        .def("seek",
+             &tddFileSource::seek,
+             py::arg("seek_point"),
+             py::arg("whence"),
+             D(tddFileSource, seek))
+
+
+        .def("open",
+             &tddFileSource::open,
+             py::arg("filename"),
+             py::arg("repeat"),
+             py::arg("offset") = 0,
+             py::arg("len") = 0,
+             D(tddFileSource, open))
+
+
+        .def("close", &tddFileSource::close, D(tddFileSource, close))
+
+
+        .def("set_begin_tag",
+             &tddFileSource::set_begin_tag,
+             py::arg("val"),
+             D(tddFileSource, set_begin_tag))
 
         ;
-
-
-
-
 }
-
-
-
-
-
-
-
-

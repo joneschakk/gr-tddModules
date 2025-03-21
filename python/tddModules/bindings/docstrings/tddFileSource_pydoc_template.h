@@ -15,13 +15,25 @@
  */
 
 
-
- static const char *__doc_gr_tddModules_tddFileSource = R"doc()doc";
-
-
- static const char *__doc_gr_tddModules_tddFileSource_tddFileSource = R"doc()doc";
+static const char* __doc_gr_tddModules_tddFileSource = R"doc()doc";
 
 
- static const char *__doc_gr_tddModules_tddFileSource_make = R"doc()doc";
+static const char* __doc_gr_tddModules_tddFileSource_tddFileSource_0 = R"doc()doc";
 
-  
+
+static const char* __doc_gr_tddModules_tddFileSource_tddFileSource_1 = R"doc()doc";
+
+
+static const char* __doc_gr_tddModules_tddFileSource_make = R"doc()doc";
+
+
+static const char* __doc_gr_tddModules_tddFileSource_seek = R"doc()doc";
+
+
+static const char* __doc_gr_tddModules_tddFileSource_open = R"doc()doc";
+
+
+static const char* __doc_gr_tddModules_tddFileSource_close = R"doc()doc";
+
+
+static const char* __doc_gr_tddModules_tddFileSource_set_begin_tag = R"doc()doc";

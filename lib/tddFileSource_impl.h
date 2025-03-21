@@ -9,6 +9,7 @@
 #define INCLUDED_TDDMODULES_TDDFILESOURCE_IMPL_H
 
 #include <gnuradio/tddModules/tddFileSource.h>
+#include <gnuradio/high_res_timer.h>
 
 namespace gr {
 namespace tddModules {
@@ -26,6 +27,11 @@ class tddFileSource_impl : public tddFileSource {
     bool d_file_begin;
     bool d_seekable;
     long d_repeat_cnt;
+    const pmt::pmt_t eob_key = pmt::intern("tx_eob");//,, time_key, d_port_name;
+    const pmt::pmt_t sob_key = pmt::intern("tx_sob");
+    const pmt::pmt_t d_port_name = pmt::intern("src_trig");
+    int d_mode, d_counter;
+    u_int64_t d_items_in_burst;
     pmt::pmt_t d_add_begin_tag;
 
     gr::thread::mutex fp_mutex;
@@ -35,7 +41,7 @@ class tddFileSource_impl : public tddFileSource {
 
 public:
   tddFileSource_impl(size_t itemsize, const char *filename, bool repeat,
-                     uint64_t offset, uint64_t len);
+                     uint64_t offset, uint64_t len, float tx_time, long sampl_rate);
   ~tddFileSource_impl();
 
   // Where all the action really happens
@@ -46,9 +52,7 @@ public:
   void open(const char* filename, bool repeat, uint64_t offset, uint64_t len) override;
   void close() override;
 
-  int work(int noutput_items,
-            gr_vector_const_void_star& input_items,
-            gr_vector_void_star& output_items) override;
+  void handler(pmt::pmt_t msg);
 
   void set_begin_tag(pmt::pmt_t val) override;
 };

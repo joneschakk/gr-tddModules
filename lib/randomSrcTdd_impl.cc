@@ -135,49 +135,6 @@ int randomSrcTdd_impl::work(int noutput_items,
         // *(out++)=(u_int8_t)rand()%255;
     }
 
-
-    // if((d_counter)&&(((d_counter+noutput_items)>=d_total_samples)||(d_enable == 3))){
-    //     if(d_enable == 3){
-    //         noutput_items = 1;
-    //     }else{
-    //         noutput_items = d_total_samples - d_counter;
-    //     }
-    //     auto time_now = (float)gr::high_res_timer_now()/
-    //                            (float)gr::high_res_timer_tps();
-    //     add_item_tag(0,noutput_items,eob_key,pmt::from_float(time_now));
-    //     for(auto i=0;i<noutput_items;i++){
-    //         *(out++)=(u_int8_t)rand()%255;
-    //     }
-    //     std::cout<<"Yo EOB "<<d_enable<<" "<<d_counter<<"\n";
-    //     d_enable = 1;
-    //     d_counter = 0;
-    // }else {
-    //     if(!d_counter){
-    //         auto time_now = (float)gr::high_res_timer_now()/
-    //                             (float)gr::high_res_timer_tps();
-    //         add_item_tag(0,0,sob_key,pmt::from_float(time_now));//pmt::PMT_T
-    //         d_counter+=noutput_items;
-    //         std::cout<<"Tot samp "<<d_total_samples<<"\n";
-    //         if(noutput_items>=d_total_samples){
-    //             noutput_items = d_total_samples;
-    //             add_item_tag(0,noutput_items-1,eob_key,pmt::from_float(time_now));//pmt::PMT_T
-    //             d_counter = 0;
-    //             d_enable = 1;
-    //             std::cout<<"Yo SOB-EOB "<<d_enable<<" "<<d_counter<<"\n";
-    //         }else{
-    //             std::cout<<"Yo SOB "<<d_enable<<" "<<d_counter<<"\n";
-    //         }
-    //     }else{
-    //         d_counter+=noutput_items;
-    //         std::cout<<"Yo normie "<<d_enable<<" "<<d_counter<<"\n";
-    //     }
-    //     for(auto i=0;i<noutput_items;i++){
-    //         *(out++)=(u_int8_t)rand()%255;
-    //     } 
-        
-        
-    // }
-
     return noutput_items;
 }
 
