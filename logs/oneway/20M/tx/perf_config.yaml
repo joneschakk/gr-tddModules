@@ -1,5 +1,5 @@
 #log or plot
-type_of_operation: log
+type_of_operation: plot
 logfile_path: log-20M-oneway-tx.log 
 
 perf_logger:
@@ -12,6 +12,9 @@ perf_logger:
 plotter:
   #3d plots for latency vs time and buffer% vs time
   #2d plots for other plots across rest of the perf counters
+  tx_or_rx: 0
+  edgelist_filepath: 0
+
   type: 2d
   #3d plot 
   #id - prints block ids on the x-axis of 3d graph

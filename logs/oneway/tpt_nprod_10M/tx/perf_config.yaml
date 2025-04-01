@@ -1,12 +1,12 @@
 #log or plot
 type_of_operation: log
-logfile_path: log-20M-oneway-tx-nogrubopt.log 
+logfile_path: log-10M-oneway-tx-tptnprod.log 
 
 perf_logger:
   #select between avg, inst, var or all
   val_type: all
   host: localhost
-  port: 45467
+  port: 40003
   interval: 4 #set an interval to poll for values in sec
 
 plotter:

@@ -1,12 +1,12 @@
 #log or plot
 type_of_operation: plot
-logfile_path: log-40M-oneway-tx.log 
+logfile_path: log-20M-oneway-rx-untimult.log
 
 perf_logger:
   #select between avg, inst, var or all
   val_type: all
   host: localhost
-  port: 36491
+  port: 41763
   interval: 4 #set an interval to poll for values in sec
 
 plotter:
@@ -14,7 +14,6 @@ plotter:
   #2d plots for other plots across rest of the perf counters
   tx_or_rx: 0
   edgelist_filepath: 0
-
   type: 2d
   #3d plot 
   #id - prints block ids on the x-axis of 3d graph

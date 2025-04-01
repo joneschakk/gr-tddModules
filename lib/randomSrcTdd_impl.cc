@@ -37,10 +37,10 @@ randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_se
     set_msg_handler(d_port_name,
         [this](const pmt::pmt_t& msg) { handler(msg); });
 
-    if(d_mode)
-        d_enable = 2;
-    else
-        d_enable = 0;
+    // if(d_mode)
+    //     d_enable = 2;
+    // else
+    //     d_enable = 0;
 }
 
 /*
@@ -85,9 +85,9 @@ int randomSrcTdd_impl::work(int noutput_items,
         d_enable = 1;
         d_counter = 0;
     }else if(!d_counter){ //start of a burst
-        auto time_now = (float)gr::high_res_timer_now()/
-                                (float)gr::high_res_timer_tps();
-        add_item_tag(0,(offset),sob_key,pmt::PMT_T);//pmt::from_float(time_now));//pmt::PMT_T
+        auto time_now = (float)gr::high_res_timer_now() ; ///
+                                // (float)gr::high_res_timer_tps();
+        add_item_tag(0,(offset),sob_key,pmt::from_float(time_now));//pmt::PMT_T
         
         if((d_counter+noutput_items)>=d_total_samples){ //tx time is so low that the num samples<buffer size
             noutput_items = d_total_samples;            //sob and eob are in one burst
@@ -119,9 +119,9 @@ int randomSrcTdd_impl::work(int noutput_items,
     }
     
     if(d_enable == 1){ //send eob
-        auto time_now = (float)gr::high_res_timer_now()/
-                                (float)gr::high_res_timer_tps();
-        add_item_tag(0,offset+(noutput_items-1),eob_key,pmt::PMT_T);//pmt::from_float(time_now));
+        auto time_now = (float)gr::high_res_timer_now(); ///
+                                // (float)gr::high_res_timer_tps();
+        add_item_tag(0,offset+(noutput_items-1),eob_key,pmt::from_float(time_now)); //pmt::PMT_T);
         // std::cout<<"Yo EEOB "<<d_enable<<" "<<d_counter<<", "<<time_now<<"\n";
     }
 

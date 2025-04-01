@@ -18,4 +18,5 @@ install(FILES api.h
     latTagSink.h
     tddTagStreamMux.h
     tdd_ofdm_cyclic_prefixer.h
-    tddFileSource.h DESTINATION include/gnuradio/tddModules)
+    # tddFileSource.h 
+    DESTINATION include/gnuradio/tddModules)
