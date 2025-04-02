@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: test
+    id: tdd_follower
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: test
+    title: tdd_follower
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -123,6 +123,30 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [2344, 468.0]
+    rotation: 0
+    state: enabled
+- name: guard_time_ms
+  id: variable
+  parameters:
+    comment: ''
+    value: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1352, 700.0]
+    rotation: 0
+    state: enabled
+- name: half_period_ms
+  id: variable
+  parameters:
+    comment: ''
+    value: '500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1240, 700.0]
     rotation: 0
     state: enabled
 - name: header_equalizer
@@ -991,9 +1015,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4360, 2052.0]
+    coordinate: [4120, 2076.0]
     rotation: 0
     state: disabled
+- name: blocks_file_sink_0_3_2_1_1_0_0_0_0_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: data_out_rx.txt
+    type: byte
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3176, 2516.0]
+    rotation: 0
+    state: enabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -1096,7 +1138,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2888, 1584.0]
+    coordinate: [2840, 1584.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -2221,7 +2263,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2744, 2108.0]
+    coordinate: [2328, 2092.0]
     rotation: 0
     state: enabled
 - name: header_bits
@@ -2939,15 +2981,15 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    guard_time: '5'
+    guard_time: guard_time_ms
     maxoutbuf: '0'
     minoutbuf: '0'
-    switch_interval: '35'
+    switch_interval: half_period_ms
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2336, 2952.0]
+    coordinate: [1352, 2304.0]
     rotation: 0
     state: enabled
 - name: tddModules_msgStrobeTddTx_1
@@ -2990,8 +3032,9 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    mode: '0'
     samples_per_sec: '5000000'
-    tx_time_interval: '0.03'
+    tx_time_interval: (half_period_ms-guard_time_ms)/1000
   states:
     bus_sink: false
     bus_source: false
@@ -3843,7 +3886,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1344, 2468.0]
+    coordinate: [1352, 2236.0]
     rotation: 180
     state: enabled
 - name: virtual_sink_1_0_0
@@ -3986,7 +4029,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2512, 2140.0]
+    coordinate: [2024, 2124.0]
     rotation: 0
     state: enabled
 
@@ -4013,6 +4056,7 @@ connections:
 - [blocks_repack_bits_bb_0_0, '0', virtual_sink_0_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_char_to_float_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_file_sink_0_1_0_0, '0']
+- [blocks_repack_bits_bb_0_0_0, '0', blocks_file_sink_0_3_2_1_1_0_0_0_0_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_probe_rate_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', epy_block_3, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', tddModules_msgStrobeTddRx_0, '0']
@@ -4105,4 +4149,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: g2ba6446
+  grc_version: g7284103
