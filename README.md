@@ -17,13 +17,13 @@ sudo ldconfig
 ```
 After this the block should be visible when you search for the blocks in GRC.
 The custom blocks are -
-1. `tddRandomSrc` - this blocks generates random bytes in the multiples of the user specified packet length. By setting `TX time` and `Samples/sec` you can control the total samples generated during the transmission time, $Total\,samples = TX\,time*Samples/sec$.
+1. `tddRandomSrc` - this blocks generates random bytes in the multiples of the user specified packet length. By setting `TX time` and `Samples/sec` you can control the total samples generated during the transmission time, $`Total\,samples = TX\,time*Samples/sec`$.
 2. `tddFileSrc` - TBD
 3. `tddTaggedStreamMux` - this block corrects and moves the tag offset of `tx_sob` tag from start of the payload to the front of the header samples. This is a tweaked version of the [Tagged Stream Mux](https://wiki.gnuradio.org/index.php/Tagged_Stream_Mux) block from the GNU Radio's block collection.
 4. `tddOFDMCyclicPrefix` - this block corrects and moves the `tx_eob` to the end of the last CP added by the block. `tx_eob` is used to signal the end of burst to the USRP device. Read more [here](https://wiki.gnuradio.org/index.php/USRP_Sink). This is a tweaked version of the [OFDM Cyclic Prefix](https://wiki.gnuradio.org/index.php/OFDM_Cyclic_Prefixer) block from the GNU Radio's block collection.
 5. `tddMessageStrobe` - this block can be configure in either master or follower mode. In master mode the block will start the timer and sends message to initiate TX as soon as it is run. In follower mode the block needs to be connected to the end of RX flowgraph and, as soon as it receives the first data, it starts the timer and sends messages to toggle between RX/TX. This is how synchronisation is achieved between 2 transceivers. This block is similar to the [Message Strobe](https://wiki.gnuradio.org/index.php/Message_Strobe) block from the GNU Radio's block collection.
 ### 1.2 Flowgraphs
-The above blocks can be used anywhere as you please. The `.grc` files in the flowgraphs directory is just an example of how it can be implemented. Use the appropriately named flowgraphs from the the folder (and edit the USRP IP addresses if required). The flowgraphs have 2 variables `tdd_half_period` which is either the UL/DL time in milliseconds and `guard_time` which is used to compute the $TX\,time = tdd\_half\_period - guard\_time$ is kept as safety. The allowed range is $0<guard\_time<tdd\_half\_period$ and this variable is used so that the block `tddRandomSrc` will only generate samples $\le TX\,time*Samples/sec =(tdd\_half\_period - guard\_time)*Samples/sec$. Change these values as required and once the setup is complete, run the `tdd_follower.grc` first and then once the flowgraph is up and running, start `tdd_master.grc`
+The above blocks can be used anywhere as you please. The `.grc` files in the flowgraphs directory is just an example of how it can be implemented. Use the appropriately named flowgraphs from the the folder (and edit the USRP IP addresses if required). The flowgraphs have 2 variables `tdd_half_period` which is either the UL/DL time in milliseconds and `guard_time` which is used to compute the $`TX\,time = tdd\_half\_period - guard\_time`$ is kept as safety. The allowed range is $`0<guard\_time<tdd\_half\_period`$ and this variable is used so that the block `tddRandomSrc` will only generate samples $`\le TX\,time*Samples/sec =(tdd\_half\_period - guard\_time)*Samples/sec`$. Change these values as required and once the setup is complete, run the `tdd_follower.grc` first and then once the flowgraph is up and running, start `tdd_master.grc`
 ## 2. Analysis
 For capturing and analysing the performance of the communication link we use the Control Port exposed by GNU Radio. More information about Control Port and Performance Counters and how to use this is explained [here](#22-gr_perf_analyser)
 ### 2.1 Test results
@@ -38,7 +38,7 @@ We tested TDD with the transceivers `tdd_master` and `tdd_follower` and below is
 8. 5ms (1ms) -> 12-16Mbps, but with some **U** at USRP sink
 9. 1ms -> ~12Mbps, with header parser errors
 ### 2.2 gr_perf_analyser
-A python script to poll values from the ControlPort in GNU Radio and saves it as a python-dict log. This can be re-used to plot the performance counters in various ways. The behaviour of the script can be tweaked from the perf_config.yaml file.
+A python script to poll values from the ControlPort in GNU Radio and saves it as a python-dict log. This can be re-used to plot the performance counters in various ways. The behaviour of the script can be tweaked from the `perf_config.yaml` file.
 
 Currently the script supports -
 - plotting 2D graphs
