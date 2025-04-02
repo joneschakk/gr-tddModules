@@ -1,6 +1,6 @@
 ## Implementing TDD
 This repo has the folder structure of GNU Radio's [OOT](https://wiki.gnuradio.org/index.php/OutOfTreeModules) module. This is no accident as we are using some custom blocks to enable TDD(Time Division Duplex) in the flowgraphs created with GNU Radio Companion. The repo also contains 2 extra directories - `flowgraphs` which contains the two flowgraphs to be run in master-follower setup and `analysis` which has the logs and further analysis done while testing the TDD functionality.
-Refer section [Analysis](#2.analysis) to understand more about the findings from the development and testing.
+Refer section [Analysis](#2-analysis) to understand more about the findings from the development and testing.
 To enable TDD follow the below instructions.
 
 ### 1. How to use this
@@ -25,7 +25,7 @@ The custom blocks are -
 ### 1.2 Flowgraphs
 The above blocks can be used anywhere as you please. The `.grc` files in the flowgraphs directory is just an example of how it can be implemented. Use the appropriately named flowgraphs from the the folder (and edit the USRP IP addresses if required). The flowgraphs have 2 variables `tdd_half_period` which is either the UL/DL time in milliseconds and `guard_time` which is used to compute the $TX\,time = tdd\_half\_period - guard\_time$ is kept as safety. The allowed range is $0<guard\_time<tdd\_half\_period$ and this variable is used so that the block `tddRandomSrc` will only generate samples $\le TX\,time*Samples/sec =(tdd\_half\_period - guard\_time)*Samples/sec$. Change these values as required and once the setup is complete, run the `tdd_follower.grc` first and then once the flowgraph is up and running, start `tdd_master.grc`
 ## 2. Analysis
-For capturing and analysing the performance of the communication link we use the Control Port exposed by GNU Radio. More information about Control Port and Performance Counters and how to use this is explained [here](#2.2-gr_perf_analyser)
+For capturing and analysing the performance of the communication link we use the Control Port exposed by GNU Radio. More information about Control Port and Performance Counters and how to use this is explained [here](#22-gr_perf_analyser)
 ### 2.1 Test results
 We tested TDD with the transceivers `tdd_master` and `tdd_follower` and below is the data rate observed for different UL/DL time periods - 
 1. one-way, no switch -> 34.4Mbps
