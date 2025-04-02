@@ -1,10 +1,10 @@
-## Implementing TDD
+# Implementing TDD
 This repo has the folder structure of GNU Radio's [OOT](https://wiki.gnuradio.org/index.php/OutOfTreeModules) module. This is no accident as we are using some custom blocks to enable TDD(Time Division Duplex) in the flowgraphs created with GNU Radio Companion. The repo also contains 2 extra directories - `flowgraphs` which contains the two flowgraphs to be run in master-follower setup and `analysis` which has the logs and further analysis done while testing the TDD functionality.
 Refer section [Analysis](#2-analysis) to understand more about the findings from the development and testing.
 To enable TDD follow the below instructions.
 
-### 1. How to use this
-#### 1.1 OOT modules
+## 1. How to use this
+### 1.1 OOT modules
 To use the modules in your flowgraph run the following commands -
 ``` bash
 git clone https://github.com/joneschakk/gr-tddModules.git
@@ -22,7 +22,7 @@ The custom blocks are -
 3. `tddTaggedStreamMux` - this block corrects and moves the tag offset of `tx_sob` tag from start of the payload to the front of the header samples. This is a tweaked version of the [Tagged Stream Mux](https://wiki.gnuradio.org/index.php/Tagged_Stream_Mux) block from the GNU Radio's block collection.
 4. `tddOFDMCyclicPrefix` - this block corrects and moves the `tx_eob` to the end of the last CP added by the block. `tx_eob` is used to signal the end of burst to the USRP device. Read more [here](https://wiki.gnuradio.org/index.php/USRP_Sink). This is a tweaked version of the [OFDM Cyclic Prefix](https://wiki.gnuradio.org/index.php/OFDM_Cyclic_Prefixer) block from the GNU Radio's block collection.
 5. `tddMessageStrobe` - this block can be configure in either master or follower mode. In master mode the block will start the timer and sends message to initiate TX as soon as it is run. In follower mode the block needs to be connected to the end of RX flowgraph and, as soon as it receives the first data, it starts the timer and sends messages to toggle between RX/TX. This is how synchronisation is achieved between 2 transceivers. This block is similar to the [Message Strobe](https://wiki.gnuradio.org/index.php/Message_Strobe) block from the GNU Radio's block collection.
-### 1.2 Flowgraphs
+## 1.2 Flowgraphs
 The above blocks can be used anywhere as you please. The `.grc` files in the flowgraphs directory is just an example of how it can be implemented. Use the appropriately named flowgraphs from the the folder (and edit the USRP IP addresses if required). The flowgraphs have 2 variables `tdd_half_period` which is either the UL/DL time in milliseconds and `guard_time` which is used to compute the $TX\,time = tdd\_half\_period - guard\_time$ is kept as safety. The allowed range is $0<guard\_time<tdd\_half\_period$ and this variable is used so that the block `tddRandomSrc` will only generate samples $\le TX\,time*Samples/sec =(tdd\_half\_period - guard\_time)*Samples/sec$. Change these values as required and once the setup is complete, run the `tdd_follower.grc` first and then once the flowgraph is up and running, start `tdd_master.grc`
 ## 2. Analysis
 For capturing and analysing the performance of the communication link we use the Control Port exposed by GNU Radio. More information about Control Port and Performance Counters and how to use this is explained [here](#22-gr_perf_analyser)
