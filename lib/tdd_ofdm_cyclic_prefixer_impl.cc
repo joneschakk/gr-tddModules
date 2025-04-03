@@ -173,7 +173,7 @@ namespace tddModules {
             tags[i].offset = ((tags[i].offset - nitems_read(0)) *
                                (d_fft_len + d_cp_lengths[last_state])) +
                               nitems_written(0);
-            if(pmt::equal(tags[i].key,pmt::intern("tx_eob"))){ //jonesdbg
+            if(pmt::equal(tags[i].key,pmt::intern("tx_eob"))){ //move the eob tag to the end of the CP
               tags[i].offset += (d_fft_len + d_cp_lengths[last_state]-1);
             }
             add_item_tag(0, tags[i].offset, tags[i].key, tags[i].value);

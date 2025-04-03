@@ -11,14 +11,14 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 # include(FindLTTngUST REQUIRED) #bastin
-find_package(LTTngUST REQUIRED)
+#find_package(LTTngUST REQUIRED)
 include_directories(.)
 list(APPEND tddModules_sources
     msgStrobeTddRx_impl.cc
     msgStrobeTddTx_impl.cc
-    nullSrcLat_impl.cc
-    tp.cpp
-    nullSinkLat_impl.cc
+    #nullSrcLat_impl.cc
+    #tp.cpp
+    #nullSinkLat_impl.cc
     randomSrcTdd_impl.cc
     latTagSink_impl.cc
     tddTagStreamMux_impl.cc
@@ -35,7 +35,8 @@ if(NOT tddModules_sources)
 endif(NOT tddModules_sources)
 
 add_library(gnuradio-tddModules SHARED ${tddModules_sources})
-target_link_libraries(gnuradio-tddModules gnuradio::gnuradio-runtime ${LTTNGUST_LIBRARIES}) #LTTng::UST)
+target_link_libraries(gnuradio-tddModules gnuradio::gnuradio-runtime)
+# ${LTTNGUST_LIBRARIES}) #LTTng::UST)
 target_include_directories(
     gnuradio-tddModules
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>

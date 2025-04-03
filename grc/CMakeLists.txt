@@ -10,8 +10,8 @@ install(FILES
     tddModules_randomToggleSource_p.block.yml
     tddModules_msgStrobeTddRx.block.yml
     tddModules_msgStrobeTddTx.block.yml
-    tddModules_nullSrcLat.block.yml
-    tddModules_nullSinkLat.block.yml
+    #tddModules_nullSrcLat.block.yml
+    #tddModules_nullSinkLat.block.yml
     tddModules_randomSrcTdd.block.yml
     tddModules_latTagSink.block.yml
     tddModules_tddTagStreamMux.block.yml

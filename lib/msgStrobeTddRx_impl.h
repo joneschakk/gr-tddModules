@@ -23,12 +23,12 @@ private:
     long d_guard_ms;
     pmt::pmt_t msg, stream_val, stream_cmd;
     std::atomic<bool> d_finished;
-    bool d_started, rx_mode;
+    bool d_started, rx_mode, d_st_mode;
 
     void run();
 
 public:
-    msgStrobeTddRx_impl(long switch_interval, long guard_time);
+    msgStrobeTddRx_impl(long switch_interval, long guard_time, bool st_mode);
     ~msgStrobeTddRx_impl();
 
     // Where all the action really happens

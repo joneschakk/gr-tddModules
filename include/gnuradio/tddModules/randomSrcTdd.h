@@ -32,7 +32,7 @@ public:
      * class. tddModules::randomSrcTdd::make is the public interface for
      * creating new instances.
      */
-    static sptr make(float tx_time_interval = 1.0, long samples_per_sec = 1000000, int mode = 1);
+    static sptr make(float tx_time_interval = 1.0, long samples_per_sec = 1000000, int pkt_len = 1920, int mode = 1);
 };
 
 } // namespace tddModules

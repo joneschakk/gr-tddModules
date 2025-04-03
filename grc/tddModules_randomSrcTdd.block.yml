@@ -4,7 +4,7 @@ category: '[tddModules]'
 
 templates:
   imports: from gnuradio import tddModules
-  make: tddModules.randomSrcTdd(${tx_time_interval}, ${samples_per_sec}, ${mode})
+  make: tddModules.randomSrcTdd(${tx_time_interval}, ${samples_per_sec}, ${pkt_len}, ${mode})
 
 parameters:
 - id: tx_time_interval
@@ -15,6 +15,10 @@ parameters:
   label: Samples per sec
   dtype: int
   default: 1000000
+- id: pkt_len
+  label: Packet Length
+  dtype: int
+  default: 1920
 - id: mode
   label: Mode TX-1
   dtype: int

@@ -23,8 +23,8 @@ namespace py = pybind11;
 // BINDING_FUNCTION_PROTOTYPES(
     void bind_msgStrobeTddRx(py::module& m);
     void bind_msgStrobeTddTx(py::module& m);
-    void bind_nullSrcLat(py::module& m);
-    void bind_nullSinkLat(py::module& m);
+    // void bind_nullSrcLat(py::module& m);
+    // void bind_nullSinkLat(py::module& m);
     void bind_randomSrcTdd(py::module& m);
     void bind_latTagSink(py::module& m);
     void bind_tddTagStreamMux(py::module& m);
@@ -60,8 +60,8 @@ PYBIND11_MODULE(tddModules_python, m)
     // BINDING_FUNCTION_CALLS(
     bind_msgStrobeTddRx(m);
     bind_msgStrobeTddTx(m);
-    bind_nullSrcLat(m);
-    bind_nullSinkLat(m);
+    // bind_nullSrcLat(m);
+    // bind_nullSinkLat(m);
     bind_randomSrcTdd(m);
     bind_latTagSink(m);
     bind_tddTagStreamMux(m);

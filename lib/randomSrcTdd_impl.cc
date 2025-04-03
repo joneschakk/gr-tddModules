@@ -13,23 +13,24 @@
 namespace gr {
 namespace tddModules {
 
-randomSrcTdd::sptr randomSrcTdd::make(float tx_time_interval, long samples_per_sec, int mode)
+randomSrcTdd::sptr randomSrcTdd::make(float tx_time_interval, long samples_per_sec, int pkt_len, int mode)
 {
     return gnuradio::make_block_sptr<randomSrcTdd_impl>(tx_time_interval,
-                                                        samples_per_sec, mode);
+                                                        samples_per_sec, pkt_len, mode);
 }
 
 
 /*
  * The private constructor
  */
-randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_sec, int mode)
+randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_sec, int pkt_len, int mode)
     : gr::sync_block("randomSrcTdd",
                      gr::io_signature::make(0, 0, 0),
                      gr::io_signature::make(1, 1, sizeof(std::uint8_t))),
     d_enable(0),
     d_counter(0),
     send_counter_data(0),
+    d_pkt_len(pkt_len),
     d_mode(mode)
 {
     d_total_samples = tx_time_interval*samples_per_sec;
@@ -81,19 +82,19 @@ int randomSrcTdd_impl::work(int noutput_items,
 
     if(d_enable == 3){
         // std::cout<<"Yo EOB "<<d_enable<<" "<<d_counter<<"\n";
-        noutput_items = 1920; //make it configurable 
+        noutput_items = d_pkt_len; //make it configurable 
         d_enable = 1;
         d_counter = 0;
     }else if(!d_counter){ //start of a burst
         auto time_now = (float)gr::high_res_timer_now() ; ///
                                 // (float)gr::high_res_timer_tps();
-        add_item_tag(0,(offset),sob_key,pmt::from_float(time_now));//pmt::PMT_T
+        add_item_tag(0,(offset),sob_key,pmt::PMT_T);//pmt::from_float(time_now));//pmt::PMT_T
         
         if((d_counter+noutput_items)>=d_total_samples){ //tx time is so low that the num samples<buffer size
             noutput_items = d_total_samples;            //sob and eob are in one burst
             //tag offset is getting messed bcoz the end is not packet_len aligned
             //make it configurable 
-            noutput_items = noutput_items + (1920- (noutput_items%1920));
+            noutput_items = noutput_items + (d_pkt_len- (noutput_items%d_pkt_len));
 
             // std::cout<<"Yo SOB-EOB "<<time_now<<", "<<d_counter<<", "<<noutput_items<<", "<<offset<<"\n";
             d_enable = 1;
@@ -108,8 +109,8 @@ int randomSrcTdd_impl::work(int noutput_items,
     else if((d_counter+noutput_items)>=d_total_samples){
         noutput_items = d_total_samples - d_counter;
         //tag offset is getting messed bcoz the end is not packet_len aligned
-        //make it configurable 1920
-        noutput_items = noutput_items + (1920- (noutput_items%1920));
+        //make it configurable d_pkt_len
+        noutput_items = noutput_items + (d_pkt_len- (noutput_items%d_pkt_len));
         // std::cout<<"Yo FullEOB "<<d_enable<<" "<<d_counter<<", "<<noutput_items<<" "<<offset<<"\n";
         d_enable = 1;
         d_counter = 0;
@@ -121,7 +122,7 @@ int randomSrcTdd_impl::work(int noutput_items,
     if(d_enable == 1){ //send eob
         auto time_now = (float)gr::high_res_timer_now(); ///
                                 // (float)gr::high_res_timer_tps();
-        add_item_tag(0,offset+(noutput_items-1),eob_key,pmt::from_float(time_now)); //pmt::PMT_T);
+        add_item_tag(0,offset+(noutput_items-1),eob_key,pmt::PMT_T);//pmt::from_float(time_now)); //pmt::PMT_T);
         // std::cout<<"Yo EEOB "<<d_enable<<" "<<d_counter<<", "<<time_now<<"\n";
     }
 

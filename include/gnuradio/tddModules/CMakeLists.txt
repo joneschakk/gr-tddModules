@@ -12,8 +12,8 @@
 install(FILES api.h    
     msgStrobeTddRx.h
     msgStrobeTddTx.h
-    nullSrcLat.h
-    nullSinkLat.h
+    #nullSrcLat.h
+    #nullSinkLat.h
     randomSrcTdd.h
     latTagSink.h
     tddTagStreamMux.h

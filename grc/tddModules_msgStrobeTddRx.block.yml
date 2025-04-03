@@ -4,7 +4,7 @@ category: '[tddModules]'
 
 templates:
   imports: from gnuradio import tddModules
-  make: tddModules.msgStrobeTddRx(${switch_interval}, ${guard_time})
+  make: tddModules.msgStrobeTddRx(${switch_interval}, ${guard_time}, ${st_mode})
 
 parameters:
 - id: switch_interval
@@ -15,6 +15,10 @@ parameters:
   label: Guard time(ms)
   dtype: int
   default: 100
+- id: st_mode
+  label: Startup Mode(0-follower/1-master)
+  dtype: bool
+  default: 0
 
 inputs:
 - label: in0
