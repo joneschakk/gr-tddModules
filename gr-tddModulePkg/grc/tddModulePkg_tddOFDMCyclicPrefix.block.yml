@@ -1,0 +1,48 @@
+id: tddModulePkg_tddOFDMCyclicPrefix
+label: tddOFDMCyclicPrefix
+category: '[tddModulePkg]'
+
+templates:
+  imports: from gnuradio import tddModulePkg
+  make: |-  
+        tddModulePkg.tddOFDMCyclicPrefix(
+            ${input_size},
+        % if isinstance(context.get('cp_len')(), (tuple, list)):
+            ${cp_len},
+        % else:
+            ${input_size} + ${cp_len},
+        % endif
+            ${rolloff},
+            ${tagname})
+
+parameters:
+-   id: input_size
+    label: FFT Length
+    dtype: int
+    default: fft_len
+-   id: cp_len
+    label: CP Length(s)
+    dtype: raw
+    default: fft_len/4
+-   id: rolloff
+    label: Rolloff
+    dtype: int
+    default: '0'
+    hide: ${ ('none' if rolloff else 'part') }
+-   id: tagname
+    label: Length Tag Key
+    dtype: string
+    default: '"frame_len"'
+
+inputs:
+-   domain: stream
+    dtype: complex
+    vlen: ${ input_size }
+
+outputs:
+-   domain: stream
+    dtype: complex
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

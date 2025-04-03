@@ -1,0 +1,49 @@
+id: tddModulePkg_tddMessageStrobe
+label: tddMessageStrobe
+category: '[tddModulePkg]'
+
+templates:
+  imports: from gnuradio import tddModulePkg
+  make: tddModulePkg.tddMessageStrobe(${type.size*vlen}, ${switch_interval}, ${guard_time}, ${st_mode})
+
+parameters:
+- id: type
+  label: IO Type
+  dtype: enum
+  options: [complex, float, int, short, byte]
+  option_attributes:
+      size: [gr.sizeof_gr_complex, gr.sizeof_float, gr.sizeof_int, gr.sizeof_short,
+          gr.sizeof_char]
+  hide: part
+- id: switch_interval
+  label: Switch Interval(ms)
+  dtype: int
+  default: 1000
+- id: guard_time
+  label: Guard time(ms)
+  dtype: int
+  default: 100
+- id: st_mode
+  label: Mode(0-follower/1-master)
+  dtype: bool
+  default: 0
+- id: vlen
+  label: Vector Length
+  dtype: int
+  default: '1'
+  hide: ${ 'part' if vlen == 1 else 'none' }
+
+inputs:
+- label: in0
+  domain: stream
+  dtype: byte
+
+outputs:
+- label: sw_st_trigger
+  domain: message
+  optional: true
+# - label: usrp_trigger
+#   domain: message
+#   optional: true
+  
+file_format: 1

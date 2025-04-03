@@ -1,0 +1,38 @@
+id: tddModulePkg_tddRandomSrc
+label: tddRandomSrc
+category: '[tddModulePkg]'
+
+templates:
+  imports: from gnuradio import tddModulePkg
+  make: tddModulePkg.tddRandomSrc(${tx_time_interval}, ${samples_per_sec}, ${pkt_len}, ${mode})
+
+parameters:
+- id: tx_time_interval
+  label: TX period(ms)
+  dtype: float
+  default: 400.0
+- id: samples_per_sec
+  label: Samples per sec
+  dtype: int
+  default: 1000000
+- id: pkt_len
+  label: Packet Length
+  dtype: int
+  default: 1920
+- id: mode
+  label: Mode (TX-1)
+  dtype: int
+  default: 1
+
+inputs:
+- label: src_trig
+  domain: message
+  optional: true
+
+
+outputs:
+- label: out0
+  domain: stream
+  dtype: byte
+  
+file_format: 1
