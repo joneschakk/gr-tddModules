@@ -16,14 +16,14 @@ namespace tddModules {
 class tddTagStreamMux_impl : public tddTagStreamMux {
 private:
   const size_t d_itemsize;
-  const unsigned int d_tag_preserve_head_pos;
+  const unsigned int d_tag_preserve_head_pos, d_header_len_offset;
 
 protected:
   int calculate_output_stream_length(const gr_vector_int &ninput_items);
 
 public:
   tddTagStreamMux_impl(size_t itemsize, const std::string &lengthtagname,
-                       unsigned int tag_preserve_head_pos);
+                       unsigned int tag_preserve_head_pos, unsigned int header_len);
   ~tddTagStreamMux_impl();
 
   // Where all the action really happens

@@ -15,13 +15,10 @@
  */
 
 
-
- static const char *__doc_gr_tddModules_tddTagStreamMux = R"doc()doc";
-
-
- static const char *__doc_gr_tddModules_tddTagStreamMux_tddTagStreamMux = R"doc()doc";
+static const char* __doc_gr_tddModules_tddTagStreamMux = R"doc()doc";
 
 
- static const char *__doc_gr_tddModules_tddTagStreamMux_make = R"doc()doc";
+static const char* __doc_gr_tddModules_tddTagStreamMux_tddTagStreamMux_0 = R"doc()doc";
 
-  
+
+static const char* __doc_gr_tddModules_tddTagStreamMux_make = R"doc()doc";

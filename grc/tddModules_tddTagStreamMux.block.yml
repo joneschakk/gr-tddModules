@@ -4,7 +4,7 @@ category: '[tddModules]'
 
 templates:
   imports: from gnuradio import tddModules
-  make: tddModules.tddTagStreamMux(${type.size}*${vlen}, ${lengthtagname}, ${tag_preserve_head_pos})
+  make: tddModules.tddTagStreamMux(${type.size}*${vlen}, ${lengthtagname}, ${tag_preserve_head_pos}, ${header_len})
 
 parameters:
 -   id: type
@@ -32,6 +32,11 @@ parameters:
     dtype: int
     default: '0'
     hide: part
+-   id: header_len
+    label: 'Header length'
+    dtype: int
+    default: 48
+
 inputs:
 - domain: stream
   dtype: ${type}

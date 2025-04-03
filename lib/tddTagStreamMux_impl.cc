@@ -13,9 +13,9 @@ namespace tddModules {
 
 tddTagStreamMux::sptr
 tddTagStreamMux::make(size_t itemsize, const std::string &lengthtagname,
-                      unsigned int tag_preserve_head_pos) {
+                      unsigned int tag_preserve_head_pos, unsigned int header_len) {
   return gnuradio::make_block_sptr<tddTagStreamMux_impl>(
-      itemsize, lengthtagname, tag_preserve_head_pos);
+      itemsize, lengthtagname, tag_preserve_head_pos,header_len);
 }
 
 /*
@@ -23,11 +23,13 @@ tddTagStreamMux::make(size_t itemsize, const std::string &lengthtagname,
  */
 tddTagStreamMux_impl::tddTagStreamMux_impl(size_t itemsize, 
                                             const std::string &lengthtagname,
-                                            unsigned int tag_preserve_head_pos)
+                                            unsigned int tag_preserve_head_pos,
+                                            unsigned int header_len)
   : gr::tagged_stream_block("tddTagStreamMux",gr::io_signature::make(1, -1 ,sizeof(itemsize)),
     gr::io_signature::make(1, 1,sizeof(itemsize)),
     lengthtagname),
     d_itemsize(itemsize),
+    d_header_len_offset(header_len),
     d_tag_preserve_head_pos(tag_preserve_head_pos)
 {
   
@@ -68,7 +70,7 @@ int tddTagStreamMux_impl::work(int noutput_items, gr_vector_int &ninput_items,
           //     offset -= n_produced;
           // }
           if(pmt::equal(tags[j].key,pmt::intern("tx_sob"))){
-            offset-=48;
+            offset-=d_header_len_offset;
           }
           add_item_tag(0, offset, tags[j].key, tags[j].value);
       }

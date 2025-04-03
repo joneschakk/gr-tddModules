@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(tddTagStreamMux.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(9cae3fce0e35f4f1855a7c00b3ae2b6c)                     */
+/* BINDTOOL_HEADER_FILE_HASH(6d328ea72e05a5a5aff93f3e450328c7)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -30,30 +30,22 @@ namespace py = pybind11;
 void bind_tddTagStreamMux(py::module& m)
 {
 
-    using tddTagStreamMux    = gr::tddModules::tddTagStreamMux;
+    using tddTagStreamMux = ::gr::tddModules::tddTagStreamMux;
 
 
-    py::class_<tddTagStreamMux, gr::tagged_stream_block, gr::block, gr::basic_block,
-        std::shared_ptr<tddTagStreamMux>>(m, "tddTagStreamMux", D(tddTagStreamMux))
+    py::class_<tddTagStreamMux,
+               gr::tagged_stream_block,
+               gr::block,
+               gr::basic_block,
+               std::shared_ptr<tddTagStreamMux>>(m, "tddTagStreamMux", D(tddTagStreamMux))
 
         .def(py::init(&tddTagStreamMux::make),
-           D(tddTagStreamMux,make)
-        )
-        
-
+             py::arg("itemsize"),
+             py::arg("lengthtagname"),
+             py::arg("tag_preserve_head_pos"),
+             py::arg("header_len"),
+             D(tddTagStreamMux, make))
 
 
         ;
-
-
-
-
 }
-
-
-
-
-
-
-
-

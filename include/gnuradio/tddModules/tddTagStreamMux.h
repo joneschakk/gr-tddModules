@@ -33,7 +33,7 @@ public:
    * creating new instances.
    */
   static sptr make(size_t itemsize, const std::string &lengthtagname,
-                   unsigned int tag_preserve_head_pos);
+                   unsigned int tag_preserve_head_pos, unsigned int header_len);
 };
 
 } // namespace tddModules

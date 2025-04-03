@@ -1,0 +1,521 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+#
+# SPDX-License-Identifier: GPL-3.0
+#
+# GNU Radio Python Flow Graph
+# Title: tdd_master
+# Author: tr-01
+# GNU Radio version: v3.11.0.0git-881-g44aff13c
+
+from PyQt5 import Qt
+from gnuradio import qtgui
+from gnuradio import blocks
+from gnuradio import digital
+from gnuradio import fec
+from gnuradio import fft
+from gnuradio.fft import window
+from gnuradio import gr
+from gnuradio.filter import firdes
+import sys
+import signal
+from PyQt5 import Qt
+from argparse import ArgumentParser
+from gnuradio.eng_arg import eng_float, intx
+from gnuradio import eng_notation
+from gnuradio import tddModules
+from gnuradio import uhd
+import time
+from gnuradio.digital.utils import tagged_streams
+import threading
+
+
+
+class tdd_master(gr.top_block, Qt.QWidget):
+
+    def __init__(self, InFile="./input.txt"):
+        gr.top_block.__init__(self, "tdd_master", catch_exceptions=True)
+        Qt.QWidget.__init__(self)
+        self.setWindowTitle("tdd_master")
+        qtgui.util.check_set_qss()
+        try:
+            self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
+        except BaseException as exc:
+            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
+        self.top_scroll_layout = Qt.QVBoxLayout()
+        self.setLayout(self.top_scroll_layout)
+        self.top_scroll = Qt.QScrollArea()
+        self.top_scroll.setFrameStyle(Qt.QFrame.NoFrame)
+        self.top_scroll_layout.addWidget(self.top_scroll)
+        self.top_scroll.setWidgetResizable(True)
+        self.top_widget = Qt.QWidget()
+        self.top_scroll.setWidget(self.top_widget)
+        self.top_layout = Qt.QVBoxLayout(self.top_widget)
+        self.top_grid_layout = Qt.QGridLayout()
+        self.top_layout.addLayout(self.top_grid_layout)
+
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "tdd_master")
+
+        try:
+            geometry = self.settings.value("geometry")
+            if geometry:
+                self.restoreGeometry(geometry)
+        except BaseException as exc:
+            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        self.flowgraph_started = threading.Event()
+
+        ##################################################
+        # Parameters
+        ##################################################
+        self.InFile = InFile
+
+        ##################################################
+        # Variables
+        ##################################################
+        self.fft_len = fft_len = 64
+        self.samp_rate = samp_rate = 20480000//2
+        self.rate = rate = 2
+        self.polys = polys = [79, 109]
+        self.pilot_symbols = pilot_symbols = ((1, 1, 1, -1,),)
+        self.pilot_carriers = pilot_carriers = ((-21, -7, 7, 21,),)
+        self.payload_mod = payload_mod = digital.qam.qam_constellation(constellation_points=64)
+        self.packet_length_tag_key = packet_length_tag_key = "packet_len"
+        self.occupied_carriers = occupied_carriers = (list(range(-26, -21)) + list(range(-20, -7)) + list(range(-6, 0)) + list(range(1, 7)) + list(range(8, 21))+ list(range(22, 27)),)
+        self.length_tag_key = length_tag_key = "frame_len"
+        self.k = k = 7
+        self.header_mod = header_mod = digital.constellation_bpsk()
+        self.framebits = framebits = fft_len
+        self.variable_repetition_encoder_def_0 = variable_repetition_encoder_def_0 = fec.repetition_encoder_make(2048, 3)
+        self.variable_repetition_decoder_def_0 = variable_repetition_decoder_def_0 = fec.repetition_decoder.make(2048,3, 0.5)
+        self.sync_word2_64 = sync_word2_64 = [0j, 0j, 0j, 0j, 0j, 0j, (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), 0j, (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), 0j, 0j, 0j, 0j, 0j]
+        self.sync_word2_256 = sync_word2_256 = [0j,0j,0j,0j,0j,0j,0j,0j,(-1+0j),(-1+0j),(1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),0j,(-1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(-1+0j),(1+0j),(1+0j),(1+0j),0j,0j,0j,0j,0j,0j,0j]
+        self.sync_word2_128 = sync_word2_128 = [0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), 0j, (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), 0j, 0j, 0j, 0j, 0j, 0j, 0j]
+        self.sync_word2_1024 = sync_word2_1024 = [0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j,0j, 0j, 0j, 0j, 0j, 0j,0j, 0j, 0j, 0j, 0j, 0j,0j, 0j, 0j, 0j, 0j, 0j,0j, 0j, 0j, 0j, 0j, 0j,0j, 0j, 0j, 0j, 0j, 0j,0j,0j, (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j),(-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), 0j, (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j),(1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j, 0j,0j,0j,0j]
+        self.sync_word2 = sync_word2 = [0j, 0j, 0j, 0j, 0j, 0j, (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1 +0j), (1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), 0j, (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (1+0j), (1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (1+0j), (-1+0j), (1+0j), (-1+0j), (-1+0j), (-1+0j), (-1+0j), 0j, 0j, 0j, 0j, 0j]
+        self.sync_word1_64 = sync_word1_64 = [0., 0., 0., 0., 0., 0., 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 0., 0., 0., 0., 0.]
+        self.sync_word1_256 = sync_word1_256 = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,-1.41421356,0.,1.41421356,0.,1.41421356,0.,1.41421356,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
+        self.sync_word1_128 = sync_word1_128 = [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0.,0., 0.]
+        self.sync_word1_1024 = sync_word1_1024 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0., 0., 0., 0., 0., 0., 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0.,1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 0., 0., 0., 0., 0., 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+        self.sync_word1 = sync_word1 = [0., 0., 0., 0., 0., 0., 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., -1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., -1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 1.41421356, 0., 0., 0., 0., 0., 0.]
+        self.sps = sps = 8
+        self.rolloff = rolloff = 0
+        self.puncpat = puncpat = '11'
+        self.pilot_symbols_128 = pilot_symbols_128 = ((),)
+        self.pilot_carriers_128 = pilot_carriers_128 = ((),)
+        self.pilot_carriers_1024 = pilot_carriers_1024 = ((-300, -150, 150, 300,),)
+        self.payload_equalizer = payload_equalizer = digital.ofdm_equalizer_simpledfe(fft_len, payload_mod.base(), occupied_carriers, pilot_carriers, pilot_symbols, 1)
+        self.packet_len = packet_len = 640*3
+        self.occupied_carriers_64 = occupied_carriers_64 = (list(range(-26, -21)) + list(range(-20, -7)) + list(range(-6, 0)) + list(range(1, 7)) + list(range(8, 12)),)
+        self.occupied_carriers_256 = occupied_carriers_256 = (list(range(-106, -49)) + list(range(-48, -35)) + list(range(-34, -21)) + list(range(-20, -7)) + list(range(-6, 0)) + list(range(1, 7))+list(range(8,21))+list(range(22,35))+list(range(36,49))+list(range(50,107)),)
+        self.occupied_carriers_128 = occupied_carriers_128 = (list(range(-106, -49)) + list(range(-48, -35)) + list(range(-34, -21)) + list(range(-20, -7)) + list(range(-6, 0)) + list(range(1, 7))+list(range(8,21))+list(range(22,35))+list(range(36,49))+list(range(50,107)),)
+        self.occupied_carriers_1024 = occupied_carriers_1024 = (list(range(-460, -300)) + list(range(-299, -150)) +list(range(-149, 0)) +  list(range(1, 150)) +list(range(151, 300)) + list(range(301, 460)),)
+        self.header_formatter = header_formatter = digital.packet_header_ofdm(occupied_carriers, n_syms=1, len_tag_key=packet_length_tag_key, frame_len_tag_key=length_tag_key, bits_per_header_sym=header_mod.bits_per_symbol(), bits_per_payload_sym=payload_mod.bits_per_symbol(), scramble_header=False)
+        self.header_equalizer = header_equalizer = digital.ofdm_equalizer_simpledfe(fft_len, header_mod.base(), occupied_carriers, pilot_carriers, pilot_symbols)
+        self.half_period_ms = half_period_ms = 50
+        self.guard_time_ms = guard_time_ms = 0
+        self.frame_len = frame_len = 1
+        self.enc = enc = list(map( (lambda a: fec.cc_encoder_make(framebits,k, rate, polys, 0, fec.CC_STREAMING, False)), range(0,1)))
+        self.dec = dec = list(map( (lambda a: fec.cc_decoder.make(framebits,k, rate, polys, 0, (-1), fec.CC_STREAMING, False)),range(0,1)))
+        self.band_width = band_width = samp_rate//2
+
+        ##################################################
+        # Blocks
+        ##################################################
+
+        self.uhd_usrp_sink_0 = uhd.usrp_sink(
+            ",".join(("addr=192.168.20.2", '')),
+            uhd.stream_args(
+                cpu_format="fc32",
+                args='',
+                channels=list(range(0,1)),
+            ),
+            "",
+        )
+        self.uhd_usrp_sink_0.set_samp_rate(samp_rate)
+        self.uhd_usrp_sink_0.set_time_unknown_pps(uhd.time_spec(0))
+
+        self.uhd_usrp_sink_0.set_center_freq(20e8, 0)
+        self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
+        self.uhd_usrp_sink_0.set_bandwidth(band_width, 0)
+        self.uhd_usrp_sink_0.set_gain(25, 0)
+        self.tddModules_tdd_ofdm_cyclic_prefixer_0 = tddModules.tdd_ofdm_cyclic_prefixer(
+            fft_len,
+            [fft_len//4],
+            rolloff,
+            "frame_len")
+        self.tddModules_tddTagStreamMux_0 = tddModules.tddTagStreamMux(gr.sizeof_gr_complex*1, "frame_len", 0, len(occupied_carriers[0]))
+        self.tddModules_randomSrcTdd_0 = tddModules.randomSrcTdd((half_period_ms-guard_time_ms)/1000, 4000000, 1920, 0)
+        self.tddModules_msgStrobeTddTx_0 = tddModules.msgStrobeTddTx(half_period_ms, guard_time_ms)
+        self.fft_vxx_0_0 = fft.fft_vcc(fft_len, False, (), True, 1)
+        self.digital_packet_headergenerator_bb_0 = digital.packet_headergenerator_bb(header_formatter.base(), length_tag_key)
+        self.digital_ofdm_carrier_allocator_cvc_0 = digital.ofdm_carrier_allocator_cvc( fft_len, occupied_carriers, pilot_carriers, pilot_symbols, (sync_word1, sync_word2), length_tag_key, True)
+        self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc(payload_mod.points(), 1)
+        self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(header_mod.points(), 1)
+        self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_gr_complex * 1, False)
+        self.blocks_tag_gate_0.set_single_key("frame_len")
+        self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, packet_len, length_tag_key)
+        self.blocks_repack_bits_bb_0_0 = blocks.repack_bits_bb(8, payload_mod.bits_per_symbol(), length_tag_key, False, gr.GR_LSB_FIRST)
+        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(0.05)
+
+
+        ##################################################
+        # Connections
+        ##################################################
+        self.msg_connect((self.tddModules_msgStrobeTddTx_0, 'sw_st_trigger'), (self.tddModules_randomSrcTdd_0, 'src_trig'))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_tag_gate_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_repack_bits_bb_0_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.digital_packet_headergenerator_bb_0, 0))
+        self.connect((self.blocks_tag_gate_0, 0), (self.uhd_usrp_sink_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.tddModules_tddTagStreamMux_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.tddModules_tddTagStreamMux_0, 1))
+        self.connect((self.digital_ofdm_carrier_allocator_cvc_0, 0), (self.fft_vxx_0_0, 0))
+        self.connect((self.digital_packet_headergenerator_bb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
+        self.connect((self.fft_vxx_0_0, 0), (self.tddModules_tdd_ofdm_cyclic_prefixer_0, 0))
+        self.connect((self.tddModules_randomSrcTdd_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
+        self.connect((self.tddModules_tddTagStreamMux_0, 0), (self.digital_ofdm_carrier_allocator_cvc_0, 0))
+        self.connect((self.tddModules_tdd_ofdm_cyclic_prefixer_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+
+
+    def closeEvent(self, event):
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "tdd_master")
+        self.settings.setValue("geometry", self.saveGeometry())
+        self.stop()
+        self.wait()
+
+        event.accept()
+
+    def get_InFile(self):
+        return self.InFile
+
+    def set_InFile(self, InFile):
+        self.InFile = InFile
+
+    def get_fft_len(self):
+        return self.fft_len
+
+    def set_fft_len(self, fft_len):
+        self.fft_len = fft_len
+        self.set_framebits(self.fft_len)
+        self.set_header_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, header_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols))
+        self.set_payload_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, payload_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols, 1))
+
+    def get_samp_rate(self):
+        return self.samp_rate
+
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.set_band_width(self.samp_rate//2)
+        self.uhd_usrp_sink_0.set_samp_rate(self.samp_rate)
+
+    def get_rate(self):
+        return self.rate
+
+    def set_rate(self, rate):
+        self.rate = rate
+
+    def get_polys(self):
+        return self.polys
+
+    def set_polys(self, polys):
+        self.polys = polys
+
+    def get_pilot_symbols(self):
+        return self.pilot_symbols
+
+    def set_pilot_symbols(self, pilot_symbols):
+        self.pilot_symbols = pilot_symbols
+        self.set_header_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, header_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols))
+        self.set_payload_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, payload_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols, 1))
+
+    def get_pilot_carriers(self):
+        return self.pilot_carriers
+
+    def set_pilot_carriers(self, pilot_carriers):
+        self.pilot_carriers = pilot_carriers
+        self.set_header_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, header_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols))
+        self.set_payload_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, payload_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols, 1))
+
+    def get_payload_mod(self):
+        return self.payload_mod
+
+    def set_payload_mod(self, payload_mod):
+        self.payload_mod = payload_mod
+
+    def get_packet_length_tag_key(self):
+        return self.packet_length_tag_key
+
+    def set_packet_length_tag_key(self, packet_length_tag_key):
+        self.packet_length_tag_key = packet_length_tag_key
+        self.set_header_formatter(digital.packet_header_ofdm(self.occupied_carriers, n_syms=1, len_tag_key=self.packet_length_tag_key, frame_len_tag_key=self.length_tag_key, bits_per_header_sym=header_mod.bits_per_symbol(), bits_per_payload_sym=payload_mod.bits_per_symbol(), scramble_header=False))
+
+    def get_occupied_carriers(self):
+        return self.occupied_carriers
+
+    def set_occupied_carriers(self, occupied_carriers):
+        self.occupied_carriers = occupied_carriers
+        self.set_header_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, header_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols))
+        self.set_header_formatter(digital.packet_header_ofdm(self.occupied_carriers, n_syms=1, len_tag_key=self.packet_length_tag_key, frame_len_tag_key=self.length_tag_key, bits_per_header_sym=header_mod.bits_per_symbol(), bits_per_payload_sym=payload_mod.bits_per_symbol(), scramble_header=False))
+        self.set_payload_equalizer(digital.ofdm_equalizer_simpledfe(self.fft_len, payload_mod.base(), self.occupied_carriers, self.pilot_carriers, self.pilot_symbols, 1))
+
+    def get_length_tag_key(self):
+        return self.length_tag_key
+
+    def set_length_tag_key(self, length_tag_key):
+        self.length_tag_key = length_tag_key
+        self.set_header_formatter(digital.packet_header_ofdm(self.occupied_carriers, n_syms=1, len_tag_key=self.packet_length_tag_key, frame_len_tag_key=self.length_tag_key, bits_per_header_sym=header_mod.bits_per_symbol(), bits_per_payload_sym=payload_mod.bits_per_symbol(), scramble_header=False))
+
+    def get_k(self):
+        return self.k
+
+    def set_k(self, k):
+        self.k = k
+
+    def get_header_mod(self):
+        return self.header_mod
+
+    def set_header_mod(self, header_mod):
+        self.header_mod = header_mod
+
+    def get_framebits(self):
+        return self.framebits
+
+    def set_framebits(self, framebits):
+        self.framebits = framebits
+
+    def get_variable_repetition_encoder_def_0(self):
+        return self.variable_repetition_encoder_def_0
+
+    def set_variable_repetition_encoder_def_0(self, variable_repetition_encoder_def_0):
+        self.variable_repetition_encoder_def_0 = variable_repetition_encoder_def_0
+
+    def get_variable_repetition_decoder_def_0(self):
+        return self.variable_repetition_decoder_def_0
+
+    def set_variable_repetition_decoder_def_0(self, variable_repetition_decoder_def_0):
+        self.variable_repetition_decoder_def_0 = variable_repetition_decoder_def_0
+
+    def get_sync_word2_64(self):
+        return self.sync_word2_64
+
+    def set_sync_word2_64(self, sync_word2_64):
+        self.sync_word2_64 = sync_word2_64
+
+    def get_sync_word2_256(self):
+        return self.sync_word2_256
+
+    def set_sync_word2_256(self, sync_word2_256):
+        self.sync_word2_256 = sync_word2_256
+
+    def get_sync_word2_128(self):
+        return self.sync_word2_128
+
+    def set_sync_word2_128(self, sync_word2_128):
+        self.sync_word2_128 = sync_word2_128
+
+    def get_sync_word2_1024(self):
+        return self.sync_word2_1024
+
+    def set_sync_word2_1024(self, sync_word2_1024):
+        self.sync_word2_1024 = sync_word2_1024
+
+    def get_sync_word2(self):
+        return self.sync_word2
+
+    def set_sync_word2(self, sync_word2):
+        self.sync_word2 = sync_word2
+
+    def get_sync_word1_64(self):
+        return self.sync_word1_64
+
+    def set_sync_word1_64(self, sync_word1_64):
+        self.sync_word1_64 = sync_word1_64
+
+    def get_sync_word1_256(self):
+        return self.sync_word1_256
+
+    def set_sync_word1_256(self, sync_word1_256):
+        self.sync_word1_256 = sync_word1_256
+
+    def get_sync_word1_128(self):
+        return self.sync_word1_128
+
+    def set_sync_word1_128(self, sync_word1_128):
+        self.sync_word1_128 = sync_word1_128
+
+    def get_sync_word1_1024(self):
+        return self.sync_word1_1024
+
+    def set_sync_word1_1024(self, sync_word1_1024):
+        self.sync_word1_1024 = sync_word1_1024
+
+    def get_sync_word1(self):
+        return self.sync_word1
+
+    def set_sync_word1(self, sync_word1):
+        self.sync_word1 = sync_word1
+
+    def get_sps(self):
+        return self.sps
+
+    def set_sps(self, sps):
+        self.sps = sps
+
+    def get_rolloff(self):
+        return self.rolloff
+
+    def set_rolloff(self, rolloff):
+        self.rolloff = rolloff
+
+    def get_puncpat(self):
+        return self.puncpat
+
+    def set_puncpat(self, puncpat):
+        self.puncpat = puncpat
+
+    def get_pilot_symbols_128(self):
+        return self.pilot_symbols_128
+
+    def set_pilot_symbols_128(self, pilot_symbols_128):
+        self.pilot_symbols_128 = pilot_symbols_128
+
+    def get_pilot_carriers_128(self):
+        return self.pilot_carriers_128
+
+    def set_pilot_carriers_128(self, pilot_carriers_128):
+        self.pilot_carriers_128 = pilot_carriers_128
+
+    def get_pilot_carriers_1024(self):
+        return self.pilot_carriers_1024
+
+    def set_pilot_carriers_1024(self, pilot_carriers_1024):
+        self.pilot_carriers_1024 = pilot_carriers_1024
+
+    def get_payload_equalizer(self):
+        return self.payload_equalizer
+
+    def set_payload_equalizer(self, payload_equalizer):
+        self.payload_equalizer = payload_equalizer
+
+    def get_packet_len(self):
+        return self.packet_len
+
+    def set_packet_len(self, packet_len):
+        self.packet_len = packet_len
+        self.blocks_stream_to_tagged_stream_0_0.set_packet_len(self.packet_len)
+        self.blocks_stream_to_tagged_stream_0_0.set_packet_len_pmt(self.packet_len)
+
+    def get_occupied_carriers_64(self):
+        return self.occupied_carriers_64
+
+    def set_occupied_carriers_64(self, occupied_carriers_64):
+        self.occupied_carriers_64 = occupied_carriers_64
+
+    def get_occupied_carriers_256(self):
+        return self.occupied_carriers_256
+
+    def set_occupied_carriers_256(self, occupied_carriers_256):
+        self.occupied_carriers_256 = occupied_carriers_256
+
+    def get_occupied_carriers_128(self):
+        return self.occupied_carriers_128
+
+    def set_occupied_carriers_128(self, occupied_carriers_128):
+        self.occupied_carriers_128 = occupied_carriers_128
+
+    def get_occupied_carriers_1024(self):
+        return self.occupied_carriers_1024
+
+    def set_occupied_carriers_1024(self, occupied_carriers_1024):
+        self.occupied_carriers_1024 = occupied_carriers_1024
+
+    def get_header_formatter(self):
+        return self.header_formatter
+
+    def set_header_formatter(self, header_formatter):
+        self.header_formatter = header_formatter
+
+    def get_header_equalizer(self):
+        return self.header_equalizer
+
+    def set_header_equalizer(self, header_equalizer):
+        self.header_equalizer = header_equalizer
+
+    def get_half_period_ms(self):
+        return self.half_period_ms
+
+    def set_half_period_ms(self, half_period_ms):
+        self.half_period_ms = half_period_ms
+
+    def get_guard_time_ms(self):
+        return self.guard_time_ms
+
+    def set_guard_time_ms(self, guard_time_ms):
+        self.guard_time_ms = guard_time_ms
+
+    def get_frame_len(self):
+        return self.frame_len
+
+    def set_frame_len(self, frame_len):
+        self.frame_len = frame_len
+
+    def get_enc(self):
+        return self.enc
+
+    def set_enc(self, enc):
+        self.enc = enc
+
+    def get_dec(self):
+        return self.dec
+
+    def set_dec(self, dec):
+        self.dec = dec
+
+    def get_band_width(self):
+        return self.band_width
+
+    def set_band_width(self, band_width):
+        self.band_width = band_width
+        self.uhd_usrp_sink_0.set_bandwidth(self.band_width, 0)
+
+
+
+def argument_parser():
+    parser = ArgumentParser()
+    parser.add_argument(
+        "--InFile", dest="InFile", type=str, default="./input.txt",
+        help="Set File Name [default=%(default)r]")
+    return parser
+
+
+def main(top_block_cls=tdd_master, options=None):
+    if options is None:
+        options = argument_parser().parse_args()
+
+    qapp = Qt.QApplication(sys.argv)
+
+    tb = top_block_cls(InFile=options.InFile)
+
+    tb.start()
+    tb.flowgraph_started.set()
+
+    tb.show()
+
+    def sig_handler(sig=None, frame=None):
+        tb.stop()
+        tb.wait()
+
+        Qt.QApplication.quit()
+
+    signal.signal(signal.SIGINT, sig_handler)
+    signal.signal(signal.SIGTERM, sig_handler)
+
+    timer = Qt.QTimer()
+    timer.start(500)
+    timer.timeout.connect(lambda: None)
+
+    qapp.exec_()
+
+if __name__ == '__main__':
+    main()
