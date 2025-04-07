@@ -4,7 +4,7 @@ category: '[tddModulePkg]'
 
 templates:
   imports: from gnuradio import tddModulePkg
-  make: tddModulePkg.tddMessageStrobe(${type.size}*{vlen}, (int)(${trx_config}), ${switch_interval_ul}, ${guard_time}, ${switch_interval_dl})
+  make: tddModulePkg.tddMessageStrobe(${type.size}*${vlen}, (int)(${trx_config}), ${switch_interval_ul}, ${guard_time}, ${switch_interval_dl})
 
 parameters:
 - id: type

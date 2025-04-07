@@ -68,6 +68,18 @@ blocks:
     coordinate: [2208, 180.0]
     rotation: 0
     state: enabled
+- name: dl_duration
+  id: variable
+  parameters:
+    comment: ''
+    value: '50'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 456.0]
+    rotation: 0
+    state: enabled
 - name: enc
   id: variable_cc_encoder_def
   parameters:
@@ -137,7 +149,7 @@ blocks:
     coordinate: [1496, 460.0]
     rotation: 0
     state: enabled
-- name: half_period_ms
+- name: half_or_ul_duration
   id: variable
   parameters:
     comment: ''
@@ -146,7 +158,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1384, 460.0]
+    coordinate: [1344, 456.0]
     rotation: 0
     state: enabled
 - name: header_equalizer
@@ -2352,8 +2364,8 @@ blocks:
     coordinate: [1864, 1116.0]
     rotation: 0
     state: enabled
-- name: tddModules_msgStrobeTddRx_0
-  id: tddModules_msgStrobeTddRx
+- name: tddModulePkg_tddMessageStrobe_0
+  id: tddModulePkg_tddMessageStrobe
   parameters:
     affinity: ''
     alias: ''
@@ -2361,13 +2373,16 @@ blocks:
     guard_time: guard_time_ms
     maxoutbuf: '0'
     minoutbuf: '0'
-    st_mode: '1'
-    switch_interval: half_period_ms
+    switch_interval_dl: dl_duration
+    switch_interval_ul: half_or_ul_duration
+    trx_config: '1'
+    type: complex
+    vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1640, 2276.0]
+    coordinate: [1648, 2252.0]
     rotation: 180
     state: enabled
 - name: tddModules_randomSrcTdd_0
@@ -2379,9 +2394,9 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     mode: '0'
-    pkt_len: '1920'
+    pkt_len: packet_len
     samples_per_sec: '4000000'
-    tx_time_interval: (half_period_ms-guard_time_ms)/1000
+    tx_time_interval: (half_or_ul_duration-guard_time_ms)/1000
   states:
     bus_sink: false
     bus_source: false
@@ -3152,7 +3167,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1208, 840.0]
+    coordinate: [1192, 840.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0_0_0
@@ -3355,7 +3370,7 @@ connections:
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_file_sink_0_1_0_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_file_sink_0_3_2_1_1_0_0_0_0_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_probe_rate_0, '0']
-- [blocks_repack_bits_bb_0_0_0, '0', tddModules_msgStrobeTddRx_0, '0']
+- [blocks_repack_bits_bb_0_0_0, '0', tddModulePkg_tddMessageStrobe_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', blocks_repack_bits_bb_0_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', digital_packet_headergenerator_bb_0, '0']
 - [blocks_tag_gate_0, '0', uhd_usrp_sink_0, '0']
@@ -3393,7 +3408,7 @@ connections:
 - [fft_vxx_0_0, '0', tddModules_tdd_ofdm_cyclic_prefixer_0, '0']
 - [fft_vxx_0_0_0, '0', digital_ofdm_chanest_vcvc_0_0, '0']
 - [fft_vxx_1_0, '0', digital_ofdm_frame_equalizer_vcvc_1_0, '0']
-- [tddModules_msgStrobeTddRx_0, sw_st_trigger, virtual_sink_1_0, '0']
+- [tddModulePkg_tddMessageStrobe_0, sw_st_trigger, virtual_sink_1_0, '0']
 - [tddModules_randomSrcTdd_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
 - [tddModules_tddTagStreamMux_0, '0', virtual_sink_0_0_0, '0']
 - [tddModules_tdd_ofdm_cyclic_prefixer_0, '0', virtual_sink_0_1, '0']

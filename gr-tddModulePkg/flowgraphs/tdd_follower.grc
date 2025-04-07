@@ -68,6 +68,18 @@ blocks:
     coordinate: [2464, 52.0]
     rotation: 0
     state: enabled
+- name: dl_duration
+  id: variable
+  parameters:
+    comment: ''
+    value: '50'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1432, 600.0]
+    rotation: 0
+    state: enabled
 - name: enc
   id: variable_cc_encoder_def
   parameters:
@@ -137,7 +149,7 @@ blocks:
     coordinate: [1744, 600.0]
     rotation: 0
     state: enabled
-- name: half_period_ms
+- name: half_or_ul_duration
   id: variable
   parameters:
     comment: ''
@@ -888,26 +900,6 @@ blocks:
     coordinate: [2232, 1144.0]
     rotation: 0
     state: enabled
-- name: analog_random_source_x_0
-  id: analog_random_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    max: '255'
-    maxoutbuf: '0'
-    min: '0'
-    minoutbuf: '0'
-    num_samps: packet_len
-    repeat: 'True'
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [344, 572.0]
-    rotation: 0
-    state: disabled
 - name: blocks_char_to_float_0
   id: blocks_char_to_float
   parameters:
@@ -2352,7 +2344,7 @@ blocks:
     coordinate: [1880, 1108.0]
     rotation: 0
     state: enabled
-- name: tddModulePkg_tddMessageStrobe_0
+- name: tddModulePkg_tddMessageStrobe_0_0
   id: tddModulePkg_tddMessageStrobe
   parameters:
     affinity: ''
@@ -2361,15 +2353,16 @@ blocks:
     guard_time: guard_time_ms
     maxoutbuf: '0'
     minoutbuf: '0'
-    st_mode: '0'
-    switch_interval: half_period_ms
-    type: byte
+    switch_interval_dl: dl_duration
+    switch_interval_ul: half_or_ul_duration
+    trx_config: '1'
+    type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1648, 2196.0]
+    coordinate: [1640, 2188.0]
     rotation: 180
     state: enabled
 - name: tddModulePkg_tddOFDMCyclicPrefix_0
@@ -2400,9 +2393,9 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     mode: '1'
-    pkt_len: '1920'
+    pkt_len: packet_len
     samples_per_sec: '1000000'
-    tx_time_interval: (half_period_ms-guard_time_ms)
+    tx_time_interval: (half_or_ul_duration-guard_time_ms)
   states:
     bus_sink: false
     bus_source: false
@@ -2431,25 +2424,6 @@ blocks:
     coordinate: [840, 968.0]
     rotation: 0
     state: enabled
-- name: tddModules_randomSrcTdd_0
-  id: tddModules_randomSrcTdd
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    mode: '0'
-    pkt_len: '1920'
-    samples_per_sec: '4000000'
-    tx_time_interval: (half_period_ms-guard_time_ms)/1000
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [128, 572.0]
-    rotation: 0
-    state: disabled
 - name: tddModules_tddTagStreamMux_0
   id: tddModules_tddTagStreamMux
   parameters:
@@ -3403,7 +3377,6 @@ connections:
 - [analog_frequency_modulator_fc_0_0, '0', blocks_multiply_xx_0_0, '0']
 - [analog_frequency_modulator_fc_0_0, '0', qtgui_const_sink_x_1_0, '0']
 - [analog_frequency_modulator_fc_0_0, '0', qtgui_time_sink_x_1_0_0, '0']
-- [analog_random_source_x_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
 - [blocks_char_to_float_0, '0', fec_extended_decoder_0, '0']
 - [blocks_delay_0_0, '0', blocks_multiply_xx_0_0, '1']
 - [blocks_multiply_const_vxx_0, '0', blocks_tag_gate_0, '0']
@@ -3416,7 +3389,7 @@ connections:
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_file_sink_0_1_0_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_file_sink_0_3_2_1_1_0_0_0_0_0, '0']
 - [blocks_repack_bits_bb_0_0_0, '0', blocks_probe_rate_0, '0']
-- [blocks_repack_bits_bb_0_0_0, '0', tddModulePkg_tddMessageStrobe_0, '0']
+- [blocks_repack_bits_bb_0_0_0, '0', tddModulePkg_tddMessageStrobe_0_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', blocks_repack_bits_bb_0_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', digital_packet_headergenerator_bb_0, '0']
 - [blocks_tag_gate_0, '0', uhd_usrp_sink_0, '0']
@@ -3457,7 +3430,7 @@ connections:
 - [fft_vxx_0_0, '0', tddModules_tdd_ofdm_cyclic_prefixer_0, '0']
 - [fft_vxx_0_0_0, '0', digital_ofdm_chanest_vcvc_0_0, '0']
 - [fft_vxx_1_0, '0', digital_ofdm_frame_equalizer_vcvc_1_0, '0']
-- [tddModulePkg_tddMessageStrobe_0, sw_st_trigger, virtual_sink_1, '0']
+- [tddModulePkg_tddMessageStrobe_0_0, sw_st_trigger, virtual_sink_1, '0']
 - [tddModulePkg_tddOFDMCyclicPrefix_0, '0', virtual_sink_0_1, '0']
 - [tddModulePkg_tddRandomSrc_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
 - [tddModulePkg_tddTaggedStreamMux_0, '0', virtual_sink_0_0_0, '0']
