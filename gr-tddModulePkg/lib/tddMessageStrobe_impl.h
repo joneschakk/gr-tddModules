@@ -20,16 +20,16 @@ private:
     const pmt::pmt_t d_port_src;
     const pmt::pmt_t d_port_usrp;
     gr::thread::thread d_thread;
-    float d_period_ms;
+    float d_ul_time_ms, d_dl_time_ms;
     float d_guard_ms;
     pmt::pmt_t msg, stream_val, stream_cmd;
     std::atomic<bool> d_finished;
-    bool d_started, rx_mode, d_st_mode;
+    bool d_started, rx_mode, d_st_mode_tx, d_diff_ul_dl;
 
     void run();
 
 public:
-    tddMessageStrobe_impl(size_t itemsize, float switch_interval, float guard_time, bool st_mode);
+    tddMessageStrobe_impl(size_t itemsize, int trx_config, float switch_interval, float guard_time, float switch_interval_dl);
     ~tddMessageStrobe_impl();
 
     // Where all the action really happens

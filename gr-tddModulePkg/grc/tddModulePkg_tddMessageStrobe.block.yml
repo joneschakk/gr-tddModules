@@ -4,7 +4,7 @@ category: '[tddModulePkg]'
 
 templates:
   imports: from gnuradio import tddModulePkg
-  make: tddModulePkg.tddMessageStrobe(${type.size*vlen}, ${switch_interval}, ${guard_time}, ${st_mode})
+  make: tddModulePkg.tddMessageStrobe(${type.size}*{vlen}, (int)(${trx_config}), ${switch_interval_ul}, ${guard_time}, ${switch_interval_dl})
 
 parameters:
 - id: type
@@ -15,18 +15,25 @@ parameters:
       size: [gr.sizeof_gr_complex, gr.sizeof_float, gr.sizeof_int, gr.sizeof_short,
           gr.sizeof_char]
   hide: part
-- id: switch_interval
+- id: trx_config
+  label: Transceiver config
+  dtype: enum
+  options: ['0','1','2','3']
+  option_labels: ["TX, same time for UL/DL", "TX, diff. time for UL/DL", "RX, same time for UL/DL", "RX, diff. time for UL/DL"]
+  default: '0'
+- id: switch_interval_ul
   label: Switch Interval(ms)
-  dtype: int
+  dtype: float
   default: 1000
+- id: switch_interval_dl
+  label: Switch Interval DL (ms)
+  dtype: float
+  default: 1000
+  hide: ${'all' if trx_config == '0' or trx_config == '2' else 'none'}
 - id: guard_time
   label: Guard time(ms)
-  dtype: int
+  dtype: float
   default: 100
-- id: st_mode
-  label: Mode(0-follower/1-master)
-  dtype: bool
-  default: 0
 - id: vlen
   label: Vector Length
   dtype: int

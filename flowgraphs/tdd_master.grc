@@ -2352,6 +2352,25 @@ blocks:
     coordinate: [1864, 1116.0]
     rotation: 0
     state: enabled
+- name: tddModulePkg_tddRandomSrc_0
+  id: tddModulePkg_tddRandomSrc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mode: '1'
+    pkt_len: '1920'
+    samples_per_sec: '1000000'
+    tx_time_interval: '0.4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [312, 756.0]
+    rotation: 0
+    state: enabled
 - name: tddModules_msgStrobeTddRx_0
   id: tddModules_msgStrobeTddRx
   parameters:
@@ -2369,25 +2388,6 @@ blocks:
     bus_structure: null
     coordinate: [1640, 2276.0]
     rotation: 180
-    state: enabled
-- name: tddModules_randomSrcTdd_0
-  id: tddModules_randomSrcTdd
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    mode: '0'
-    pkt_len: '1920'
-    samples_per_sec: '4000000'
-    tx_time_interval: (half_period_ms-guard_time_ms)/1000
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [320, 756.0]
-    rotation: 0
     state: enabled
 - name: tddModules_tddTagStreamMux_0
   id: tddModules_tddTagStreamMux
@@ -2881,7 +2881,7 @@ blocks:
     dc_offs_enb7: default
     dc_offs_enb8: default
     dc_offs_enb9: default
-    dev_addr: '"addr=192.168.20.2"'
+    dev_addr: '""'
     dev_args: ''
     gain0: '20'
     gain1: '0'
@@ -3393,8 +3393,8 @@ connections:
 - [fft_vxx_0_0, '0', tddModules_tdd_ofdm_cyclic_prefixer_0, '0']
 - [fft_vxx_0_0_0, '0', digital_ofdm_chanest_vcvc_0_0, '0']
 - [fft_vxx_1_0, '0', digital_ofdm_frame_equalizer_vcvc_1_0, '0']
+- [tddModulePkg_tddRandomSrc_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
 - [tddModules_msgStrobeTddRx_0, sw_st_trigger, virtual_sink_1_0, '0']
-- [tddModules_randomSrcTdd_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
 - [tddModules_tddTagStreamMux_0, '0', virtual_sink_0_0_0, '0']
 - [tddModules_tdd_ofdm_cyclic_prefixer_0, '0', virtual_sink_0_1, '0']
 - [uhd_usrp_source_0_0, '0', blocks_delay_0_0, '0']
@@ -3406,7 +3406,7 @@ connections:
 - [virtual_source_0_0_1, '0', digital_chunks_to_symbols_xx_0_0, '0']
 - [virtual_source_0_1, '0', digital_chunks_to_symbols_xx_0, '0']
 - [virtual_source_0_1_0, '0', fft_vxx_0_0_0, '0']
-- [virtual_source_1, '0', tddModules_randomSrcTdd_0, src_trig]
+- [virtual_source_1, '0', tddModulePkg_tddRandomSrc_0, src_trig]
 - [virtual_source_1_0, '0', fft_vxx_1_0, '0']
 
 metadata:

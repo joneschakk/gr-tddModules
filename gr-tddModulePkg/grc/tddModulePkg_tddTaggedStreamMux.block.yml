@@ -4,7 +4,7 @@ category: '[tddModulePkg]'
 
 templates:
   imports: from gnuradio import tddModulePkg
-  make: tddModulePkg.tddTaggedStreamMux(${type.size}*${vlen}, ${&lengthtagname}, ${tag_preserve_head_pos}, ${header_len})
+  make: tddModulePkg.tddTaggedStreamMux(${type.size}*${vlen}, ${lengthtagname}, ${tag_preserve_head_pos}, ${header_len})
 
 parameters:
 -   id: type

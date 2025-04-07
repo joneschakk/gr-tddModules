@@ -1,10 +1,10 @@
-id: tddModules_randomSrcTdd
-label: randomSrcTdd
+id: tddModules_tddRandomSrc
+label: tddRandomSrc
 category: '[tddModules]'
 
 templates:
   imports: from gnuradio import tddModules
-  make: tddModules.randomSrcTdd(${tx_time_interval}, ${samples_per_sec}, ${pkt_len}, ${mode})
+  make: tddModules.tddRandomSrc(${tx_time_interval}, ${samples_per_sec}, ${pkt_len}, ${mode})
 
 parameters:
 - id: tx_time_interval

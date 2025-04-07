@@ -14,7 +14,7 @@ install(FILES api.h
     msgStrobeTddTx.h
     #nullSrcLat.h
     #nullSinkLat.h
-    randomSrcTdd.h
+    tddRandomSrc.h
     latTagSink.h
     tddTagStreamMux.h
     tdd_ofdm_cyclic_prefixer.h

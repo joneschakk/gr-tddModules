@@ -28,7 +28,7 @@ list(APPEND tddModules_python_files
     msgStrobeTddTx_python.cc
     nullSrcLat_python.cc
     nullSinkLat_python.cc
-    randomSrcTdd_python.cc
+    tddRandomSrc_python.cc
     latTagSink_python.cc
     tddTagStreamMux_python.cc
     tdd_ofdm_cyclic_prefixer_python.cc

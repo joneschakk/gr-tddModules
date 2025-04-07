@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(tddMessageStrobe.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(009f341605f914f03171394d2848006e)                     */
+/* BINDTOOL_HEADER_FILE_HASH(4394080a8ab1d57536dbe16ce21b59b5)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -42,9 +42,10 @@ void bind_tddMessageStrobe(py::module& m)
 
         .def(py::init(&tddMessageStrobe::make),
              py::arg("itemsize"),
+             py::arg("trx_config") = 0,
              py::arg("switch_interval") = 100.,
              py::arg("guard_time") = 10.,
-             py::arg("st_mode") = 0,
+             py::arg("switch_interval_dl") = 100.,
              D(tddMessageStrobe, make))
 
 

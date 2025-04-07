@@ -23,6 +23,7 @@ parameters:
   label: Mode (TX-1)
   dtype: int
   default: 1
+  hide: all
 
 inputs:
 - label: src_trig

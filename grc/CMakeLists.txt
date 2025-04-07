@@ -12,7 +12,7 @@ install(FILES
     tddModules_msgStrobeTddTx.block.yml
     #tddModules_nullSrcLat.block.yml
     #tddModules_nullSinkLat.block.yml
-    tddModules_randomSrcTdd.block.yml
+    tddModules_tddRandomSrc.block.yml
     tddModules_latTagSink.block.yml
     tddModules_tddTagStreamMux.block.yml
     tddModules_tdd_ofdm_cyclic_prefixer.block.yml

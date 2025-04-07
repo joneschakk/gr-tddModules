@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "randomSrcTdd_impl.h"
+#include "tddRandomSrc_impl.h"
 #include <gnuradio/io_signature.h>
 // #include <chrono>
 
@@ -13,9 +13,9 @@
 namespace gr {
 namespace tddModules {
 
-randomSrcTdd::sptr randomSrcTdd::make(float tx_time_interval, long samples_per_sec, int pkt_len, int mode)
+tddRandomSrc::sptr tddRandomSrc::make(float tx_time_interval, long samples_per_sec, int pkt_len, int mode)
 {
-    return gnuradio::make_block_sptr<randomSrcTdd_impl>(tx_time_interval,
+    return gnuradio::make_block_sptr<tddRandomSrc_impl>(tx_time_interval,
                                                         samples_per_sec, pkt_len, mode);
 }
 
@@ -23,8 +23,8 @@ randomSrcTdd::sptr randomSrcTdd::make(float tx_time_interval, long samples_per_s
 /*
  * The private constructor
  */
-randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_sec, int pkt_len, int mode)
-    : gr::sync_block("randomSrcTdd",
+tddRandomSrc_impl::tddRandomSrc_impl(float tx_time_interval, long samples_per_sec, int pkt_len, int mode)
+    : gr::sync_block("tddRandomSrc",
                      gr::io_signature::make(0, 0, 0),
                      gr::io_signature::make(1, 1, sizeof(std::uint8_t))),
     d_enable(0),
@@ -47,9 +47,9 @@ randomSrcTdd_impl::randomSrcTdd_impl(float tx_time_interval, long samples_per_se
 /*
  * Our virtual destructor.
  */
-randomSrcTdd_impl::~randomSrcTdd_impl() {}
+tddRandomSrc_impl::~tddRandomSrc_impl() {}
 
-void randomSrcTdd_impl::handler(pmt::pmt_t msg){
+void tddRandomSrc_impl::handler(pmt::pmt_t msg){
     if(pmt::equal(msg,pmt::intern("SWITCH"))){
         if(d_enable == 0){
             d_enable = 2;
@@ -67,7 +67,7 @@ void randomSrcTdd_impl::handler(pmt::pmt_t msg){
     }
 }
 
-int randomSrcTdd_impl::work(int noutput_items,
+int tddRandomSrc_impl::work(int noutput_items,
                             gr_vector_const_void_star& input_items,
                             gr_vector_void_star& output_items)
 {

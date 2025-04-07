@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: tdd_master
+# Title: tdd_follower
 # Author: tr-01
 # GNU Radio version: v3.11.0.0git-881-g44aff13c
 
@@ -26,7 +26,7 @@ from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-from gnuradio import tddModules
+from gnuradio import tddModulePkg
 from gnuradio import uhd
 import time
 from gnuradio.digital.utils import tagged_streams
@@ -35,12 +35,12 @@ import threading
 
 
 
-class tdd_master(gr.top_block, Qt.QWidget):
+class tdd_follower(gr.top_block, Qt.QWidget):
 
     def __init__(self, InFile="./input.txt"):
-        gr.top_block.__init__(self, "tdd_master", catch_exceptions=True)
+        gr.top_block.__init__(self, "tdd_follower", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("tdd_master")
+        self.setWindowTitle("tdd_follower")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -58,7 +58,7 @@ class tdd_master(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "tdd_master")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "tdd_follower")
 
         try:
             geometry = self.settings.value("geometry")
@@ -116,7 +116,7 @@ class tdd_master(gr.top_block, Qt.QWidget):
         self.header_formatter = header_formatter = digital.packet_header_ofdm(occupied_carriers, n_syms=1, len_tag_key=packet_length_tag_key, frame_len_tag_key=length_tag_key, bits_per_header_sym=header_mod.bits_per_symbol(), bits_per_payload_sym=payload_mod.bits_per_symbol(), scramble_header=False)
         self.header_equalizer = header_equalizer = digital.ofdm_equalizer_simpledfe(fft_len, header_mod.base(), occupied_carriers, pilot_carriers, pilot_symbols)
         self.half_period_ms = half_period_ms = 50
-        self.guard_time_ms = guard_time_ms = 0
+        self.guard_time_ms = guard_time_ms = 5
         self.frame_len = frame_len = 1
         self.enc = enc = list(map( (lambda a: fec.cc_encoder_make(framebits,k, rate, polys, 0, fec.CC_STREAMING, False)), range(0,1)))
         self.dec = dec = list(map( (lambda a: fec.cc_decoder.make(framebits,k, rate, polys, 0, (-1), fec.CC_STREAMING, False)),range(0,1)))
@@ -127,7 +127,7 @@ class tdd_master(gr.top_block, Qt.QWidget):
         ##################################################
 
         self.uhd_usrp_source_0_0 = uhd.usrp_source(
-            ",".join(("addr=192.168.20.2", '')),
+            ",".join(("", '')),
             uhd.stream_args(
                 cpu_format="fc32",
                 args='',
@@ -164,14 +164,14 @@ class tdd_master(gr.top_block, Qt.QWidget):
         self.uhd_usrp_sink_0.set_antenna("TX/RX", 0)
         self.uhd_usrp_sink_0.set_bandwidth(band_width, 0)
         self.uhd_usrp_sink_0.set_gain(25, 0)
-        self.tddModules_tdd_ofdm_cyclic_prefixer_0 = tddModules.tdd_ofdm_cyclic_prefixer(
+        self.tddModulePkg_tddTaggedStreamMux_0 = tddModulePkg.tddTaggedStreamMux(gr.sizeof_gr_complex*1, "frame_len", 0, len(occupied_carriers[0]))
+        self.tddModulePkg_tddRandomSrc_0 = tddModulePkg.tddRandomSrc((half_period_ms-guard_time_ms), 1000000, 1920, 1)
+        self.tddModulePkg_tddOFDMCyclicPrefix_0 = tddModulePkg.tddOFDMCyclicPrefix(
             fft_len,
-            [fft_len//4],
-            rolloff,
+            fft_len + fft_len/4,
+            0,
             "frame_len")
-        self.tddModules_tddTagStreamMux_0 = tddModules.tddTagStreamMux(gr.sizeof_gr_complex*1, "frame_len", 0, len(occupied_carriers[0]))
-        self.tddModules_randomSrcTdd_0 = tddModules.randomSrcTdd((half_period_ms-guard_time_ms)/1000, 4000000, 1920, 0)
-        self.tddModules_msgStrobeTddRx_0 = tddModules.msgStrobeTddRx(half_period_ms, guard_time_ms, 1)
+        self.tddModulePkg_tddMessageStrobe_0 = tddModulePkg.tddMessageStrobe(gr.sizeof_char*{vlen}, (int)(0), 1000, guard_time_ms, 1000)
         self.qtgui_time_sink_x_2_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -443,7 +443,7 @@ class tdd_master(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.blocks_probe_rate_0, 'rate'), (self.blocks_message_debug_0, 'print'))
         self.msg_connect((self.digital_packet_headerparser_b_0_0, 'header_data'), (self.digital_header_payload_demux_0_0, 'header_data'))
-        self.msg_connect((self.tddModules_msgStrobeTddRx_0, 'sw_st_trigger'), (self.tddModules_randomSrcTdd_0, 'src_trig'))
+        self.msg_connect((self.tddModulePkg_tddMessageStrobe_0, 'sw_st_trigger'), (self.tddModulePkg_tddRandomSrc_0, 'src_trig'))
         self.connect((self.analog_frequency_modulator_fc_0_0, 0), (self.blocks_multiply_xx_0_0, 0))
         self.connect((self.analog_frequency_modulator_fc_0_0, 0), (self.qtgui_const_sink_x_1_0, 0))
         self.connect((self.analog_frequency_modulator_fc_0_0, 0), (self.qtgui_time_sink_x_1_0_0, 0))
@@ -452,12 +452,12 @@ class tdd_master(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_xx_0_0, 0), (self.digital_header_payload_demux_0_0, 0))
         self.connect((self.blocks_repack_bits_bb_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0, 0))
         self.connect((self.blocks_repack_bits_bb_0_0_0, 0), (self.blocks_probe_rate_0, 0))
-        self.connect((self.blocks_repack_bits_bb_0_0_0, 0), (self.tddModules_msgStrobeTddRx_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0_0_0, 0), (self.tddModulePkg_tddMessageStrobe_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_repack_bits_bb_0_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.digital_packet_headergenerator_bb_0, 0))
         self.connect((self.blocks_tag_gate_0, 0), (self.uhd_usrp_sink_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.tddModules_tddTagStreamMux_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.tddModules_tddTagStreamMux_0, 1))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.tddModulePkg_tddTaggedStreamMux_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.tddModulePkg_tddTaggedStreamMux_0, 1))
         self.connect((self.digital_constellation_decoder_cb_0_0, 0), (self.digital_packet_headerparser_b_0_0, 0))
         self.connect((self.digital_constellation_decoder_cb_1_0, 0), (self.blocks_repack_bits_bb_0_0_0, 0))
         self.connect((self.digital_header_payload_demux_0_0, 0), (self.fft_vxx_0_0_0, 0))
@@ -473,19 +473,19 @@ class tdd_master(gr.top_block, Qt.QWidget):
         self.connect((self.digital_ofdm_sync_sc_cfb_0_0, 0), (self.analog_frequency_modulator_fc_0_0, 0))
         self.connect((self.digital_ofdm_sync_sc_cfb_0_0, 1), (self.digital_header_payload_demux_0_0, 1))
         self.connect((self.digital_packet_headergenerator_bb_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
-        self.connect((self.fft_vxx_0_0, 0), (self.tddModules_tdd_ofdm_cyclic_prefixer_0, 0))
+        self.connect((self.fft_vxx_0_0, 0), (self.tddModulePkg_tddOFDMCyclicPrefix_0, 0))
         self.connect((self.fft_vxx_0_0_0, 0), (self.digital_ofdm_chanest_vcvc_0_0, 0))
         self.connect((self.fft_vxx_1_0, 0), (self.digital_ofdm_frame_equalizer_vcvc_1_0, 0))
-        self.connect((self.tddModules_randomSrcTdd_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
-        self.connect((self.tddModules_tddTagStreamMux_0, 0), (self.digital_ofdm_carrier_allocator_cvc_0, 0))
-        self.connect((self.tddModules_tdd_ofdm_cyclic_prefixer_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.tddModulePkg_tddOFDMCyclicPrefix_0, 0), (self.blocks_multiply_const_vxx_0, 0))
+        self.connect((self.tddModulePkg_tddRandomSrc_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
+        self.connect((self.tddModulePkg_tddTaggedStreamMux_0, 0), (self.digital_ofdm_carrier_allocator_cvc_0, 0))
         self.connect((self.uhd_usrp_source_0_0, 0), (self.blocks_delay_0_0, 0))
         self.connect((self.uhd_usrp_source_0_0, 0), (self.digital_ofdm_sync_sc_cfb_0_0, 0))
         self.connect((self.uhd_usrp_source_0_0, 0), (self.qtgui_time_sink_x_2_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "tdd_master")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "tdd_follower")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -801,7 +801,7 @@ def argument_parser():
     return parser
 
 
-def main(top_block_cls=tdd_master, options=None):
+def main(top_block_cls=tdd_follower, options=None):
     if options is None:
         options = argument_parser().parse_args()
 

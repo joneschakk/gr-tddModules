@@ -13,8 +13,8 @@
 /* If manual edits are made, the following tags should be modified accordingly.    */
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
-/* BINDTOOL_HEADER_FILE(randomSrcTdd.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(5b726585f1920e00bfec541095d41bcc)                     */
+/* BINDTOOL_HEADER_FILE(tddRandomSrc.h)                                        */
+/* BINDTOOL_HEADER_FILE_HASH(f3eae63f8815ed2f8f1c02323c3008bb)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -23,28 +23,28 @@
 
 namespace py = pybind11;
 
-#include <gnuradio/tddModules/randomSrcTdd.h>
+#include <gnuradio/tddModules/tddRandomSrc.h>
 // pydoc.h is automatically generated in the build directory
-#include <randomSrcTdd_pydoc.h>
+#include <tddRandomSrc_pydoc.h>
 
-void bind_randomSrcTdd(py::module& m)
+void bind_tddRandomSrc(py::module& m)
 {
 
-    using randomSrcTdd = ::gr::tddModules::randomSrcTdd;
+    using tddRandomSrc = ::gr::tddModules::tddRandomSrc;
 
 
-    py::class_<randomSrcTdd,
+    py::class_<tddRandomSrc,
                gr::sync_block,
                gr::block,
                gr::basic_block,
-               std::shared_ptr<randomSrcTdd>>(m, "randomSrcTdd", D(randomSrcTdd))
+               std::shared_ptr<tddRandomSrc>>(m, "tddRandomSrc", D(tddRandomSrc))
 
-        .def(py::init(&randomSrcTdd::make),
+        .def(py::init(&tddRandomSrc::make),
              py::arg("tx_time_interval") = 1.,
              py::arg("samples_per_sec") = 1000000,
              py::arg("pkt_len") = 1920,
              py::arg("mode") = 1,
-             D(randomSrcTdd, make))
+             D(tddRandomSrc, make))
 
 
         ;

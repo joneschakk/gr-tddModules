@@ -23,7 +23,7 @@ parameters:
 -   id: cp_len
     label: CP Length(s)
     dtype: raw
-    default: fft_len/4
+    default: [fft_len//4]
 -   id: rolloff
     label: Rolloff
     dtype: int

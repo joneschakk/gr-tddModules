@@ -15,10 +15,10 @@
  */
 
 
-static const char* __doc_gr_tddModules_randomSrcTdd = R"doc()doc";
+static const char* __doc_gr_tddModules_tddRandomSrc = R"doc()doc";
 
 
-static const char* __doc_gr_tddModules_randomSrcTdd_randomSrcTdd_0 = R"doc()doc";
+static const char* __doc_gr_tddModules_tddRandomSrc_tddRandomSrc_0 = R"doc()doc";
 
 
-static const char* __doc_gr_tddModules_randomSrcTdd_make = R"doc()doc";
+static const char* __doc_gr_tddModules_tddRandomSrc_make = R"doc()doc";

@@ -33,7 +33,7 @@ public:
      * creating new instances.
      */
     static sptr
-    make(size_t itemsize, float switch_interval = 100.0, float guard_time = 10.0, bool st_mode = 0);
+    make(size_t itemsize, int trx_config = 0, float switch_interval = 100.0, float guard_time = 10.0, float switch_interval_dl = 100.0);
 };
 
 } // namespace tddModulePkg

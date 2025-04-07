@@ -5,15 +5,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#ifndef INCLUDED_TDDMODULES_RANDOMSRCTDD_IMPL_H
-#define INCLUDED_TDDMODULES_RANDOMSRCTDD_IMPL_H
+#ifndef INCLUDED_TDDMODULES_TDDRANDOMSRC_IMPL_H
+#define INCLUDED_TDDMODULES_TDDRANDOMSRC_IMPL_H
 
-#include <gnuradio/tddModules/randomSrcTdd.h>
+#include <gnuradio/tddModules/tddRandomSrc.h>
 #include <gnuradio/high_res_timer.h>
 namespace gr {
 namespace tddModules {
 
-class randomSrcTdd_impl : public randomSrcTdd
+class tddRandomSrc_impl : public tddRandomSrc
 {
 private:
     long d_total_samples, d_counter;
@@ -26,8 +26,8 @@ private:
     u_int8_t send_counter_data;
     int d_mode, d_pkt_len;
 public:
-    randomSrcTdd_impl(float tx_time_interval, long samples_per_sec, int pkt_len, int mode);
-    ~randomSrcTdd_impl();
+    tddRandomSrc_impl(float tx_time_interval, long samples_per_sec, int pkt_len, int mode);
+    ~tddRandomSrc_impl();
 
     // Where all the action really happens
     int work(int noutput_items,
@@ -38,4 +38,4 @@ public:
 } // namespace tddModules
 } // namespace gr
 
-#endif /* INCLUDED_TDDMODULES_RANDOMSRCTDD_IMPL_H */
+#endif /* INCLUDED_TDDMODULES_TDDRANDOMSRC_IMPL_H */
