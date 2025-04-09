@@ -38,12 +38,15 @@ tddMessageStrobe_impl::tddMessageStrobe_impl(size_t itemsize,
     d_st_mode_tx(true),
     d_guard_ms(guard_time),
     d_ul_time_ms(switch_interval),
+    d_dl_time_ms(switch_interval_dl),
     d_port_src(pmt::mp("sw_st_trigger"))
 {
     if(trx_config&0x2)
         d_st_mode_tx = false;
-    if (trx_config&0x1)        
-        d_diff_ul_dl = true;              
+    if (!(trx_config&0x1)){        
+        d_same_ul_dl = true;
+        d_dl_time_ms = d_ul_time_ms;
+    }              
 
     message_port_register_out(d_port_src);
 }
