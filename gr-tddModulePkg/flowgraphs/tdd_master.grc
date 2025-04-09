@@ -1361,7 +1361,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    cp_len: [fft_len//4]
+    cp_len: fft_len//4
     input_size: fft_len
     maxoutbuf: '0'
     minoutbuf: '0'
