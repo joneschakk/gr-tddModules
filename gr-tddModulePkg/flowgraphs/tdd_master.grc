@@ -1361,7 +1361,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    cp_len: fft_len//4
+    cp_len: [fft_len//4]
     input_size: fft_len
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -2375,7 +2375,7 @@ blocks:
     minoutbuf: '0'
     switch_interval_dl: dl_duration
     switch_interval_ul: half_or_ul_duration
-    trx_config: '1'
+    trx_config: '0'
     type: complex
     vlen: '1'
   states:
