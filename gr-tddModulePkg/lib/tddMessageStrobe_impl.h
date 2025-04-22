@@ -24,7 +24,7 @@ private:
     float d_guard_ms;
     pmt::pmt_t msg, stream_val, stream_cmd;
     std::atomic<bool> d_finished;
-    bool d_started, rx_mode, d_st_mode_tx, d_diff_ul_dl;
+    bool d_started, rx_mode, d_st_mode_tx, d_same_ul_dl;
 
     void run();
 

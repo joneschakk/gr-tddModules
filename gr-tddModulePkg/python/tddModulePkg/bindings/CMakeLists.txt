@@ -32,7 +32,8 @@ list(APPEND tddModulePkg_python_files
     tddLatReadSink_python.cc
     SnCHier_Blk_NSnH_python.cc
     SnCHier_Blk_NDiv_python.cc
-    SnCHier_Blk_Nmulcc_python.cc python_bindings.cc)
+    SnCHier_Blk_Nmulcc_python.cc
+    SnC_HierBlk_python.cc python_bindings.cc)
 
 gr_pybind_make_oot(tddModulePkg ../../.. gr::tddModulePkg "${tddModulePkg_python_files}")
 

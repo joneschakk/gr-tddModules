@@ -14,4 +14,5 @@ install(FILES
     tddModulePkg_tddLatReadSink.block.yml
     tddModulePkg_SnCHier_Blk_NSnH.block.yml
     tddModulePkg_SnCHier_Blk_NDiv.block.yml
-    tddModulePkg_SnCHier_Blk_Nmulcc.block.yml DESTINATION share/gnuradio/grc/blocks)
+    tddModulePkg_SnCHier_Blk_Nmulcc.block.yml
+    tddModulePkg_SnC_HierBlk.block.yml DESTINATION share/gnuradio/grc/blocks)

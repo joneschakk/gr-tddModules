@@ -1,0 +1,50 @@
+id: tddModulePkg_SnC_HierBlk
+label: SnC_HierBlk
+category: '[tddModulePkg]'
+
+templates:
+  imports: from gnuradio import tddModulePkg
+  make: tddModulePkg.SnC_HierBlk(${fft_len}, ${cp_len}, ${use_even_carriers}, ${threshold})
+
+parameters:
+-   id: fft_len
+    label: FFT length
+    dtype: int
+-   id: cp_len
+    label: Cyclic Prefix length
+    dtype: int
+-   id: use_even_carriers
+    label: Preamble Carriers
+    dtype: enum
+    default: 'False'
+    options: ['False', 'True']
+    option_labels: [Odd, Even]
+    hide: part
+-   id: threshold
+    label: Threshold
+    dtype: real
+    default: '0.9'
+
+inputs:
+-   domain: stream
+    dtype: complex
+
+outputs:
+-   label: freq_offset
+    domain: stream
+    dtype: float
+-   label: detect
+    domain: stream
+    dtype: byte
+-   label: auto
+    domain: stream
+    dtype: float
+
+asserts:
+  - ${ fft_len > 0}
+  - ${ cp_len >= 0}
+
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

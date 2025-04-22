@@ -29,6 +29,7 @@ namespace py = pybind11;
     void bind_SnCHier_Blk_NSnH(py::module& m);
     void bind_SnCHier_Blk_NDiv(py::module& m);
     void bind_SnCHier_Blk_Nmulcc(py::module& m);
+    void bind_SnC_HierBlk(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -65,5 +66,6 @@ PYBIND11_MODULE(tddModulePkg_python, m)
     bind_SnCHier_Blk_NSnH(m);
     bind_SnCHier_Blk_NDiv(m);
     bind_SnCHier_Blk_Nmulcc(m);
+    bind_SnC_HierBlk(m);
     // ) END BINDING_FUNCTION_CALLS
 }

@@ -19,7 +19,8 @@ list(APPEND tddModulePkg_sources
     tddLatReadSink_impl.cc
     SnCHier_Blk_NSnH_impl.cc
     SnCHier_Blk_NDiv_impl.cc
-    SnCHier_Blk_Nmulcc_impl.cc)
+    SnCHier_Blk_Nmulcc_impl.cc
+    SnC_HierBlk_impl.cc)
 
 set(tddModulePkg_sources
     "${tddModulePkg_sources}"
