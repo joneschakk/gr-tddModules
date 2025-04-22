@@ -26,6 +26,9 @@ namespace py = pybind11;
     void bind_tddOFDMCyclicPrefix(py::module& m);
     void bind_tddMessageStrobe(py::module& m);
     void bind_tddLatReadSink(py::module& m);
+    void bind_SnCHier_Blk_NSnH(py::module& m);
+    void bind_SnCHier_Blk_NDiv(py::module& m);
+    void bind_SnCHier_Blk_Nmulcc(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -59,5 +62,8 @@ PYBIND11_MODULE(tddModulePkg_python, m)
     bind_tddOFDMCyclicPrefix(m);
     bind_tddMessageStrobe(m);
     bind_tddLatReadSink(m);
+    bind_SnCHier_Blk_NSnH(m);
+    bind_SnCHier_Blk_NDiv(m);
+    bind_SnCHier_Blk_Nmulcc(m);
     // ) END BINDING_FUNCTION_CALLS
 }

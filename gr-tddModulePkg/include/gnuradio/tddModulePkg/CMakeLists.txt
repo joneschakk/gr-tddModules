@@ -14,4 +14,7 @@ install(FILES api.h
     tddTaggedStreamMux.h
     tddOFDMCyclicPrefix.h
     tddMessageStrobe.h
-    tddLatReadSink.h DESTINATION include/gnuradio/tddModulePkg)
+    tddLatReadSink.h
+    SnCHier_Blk_NSnH.h
+    SnCHier_Blk_NDiv.h
+    SnCHier_Blk_Nmulcc.h DESTINATION include/gnuradio/tddModulePkg)

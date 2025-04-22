@@ -11,4 +11,7 @@ install(FILES
     tddModulePkg_tddTaggedStreamMux.block.yml
     tddModulePkg_tddOFDMCyclicPrefix.block.yml
     tddModulePkg_tddMessageStrobe.block.yml
-    tddModulePkg_tddLatReadSink.block.yml DESTINATION share/gnuradio/grc/blocks)
+    tddModulePkg_tddLatReadSink.block.yml
+    tddModulePkg_SnCHier_Blk_NSnH.block.yml
+    tddModulePkg_SnCHier_Blk_NDiv.block.yml
+    tddModulePkg_SnCHier_Blk_Nmulcc.block.yml DESTINATION share/gnuradio/grc/blocks)
