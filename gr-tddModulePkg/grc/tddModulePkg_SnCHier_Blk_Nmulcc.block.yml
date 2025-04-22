@@ -1,45 +1,25 @@
-id: tddModulePkg_SnCHier_Blk_NSnH
-label: SnCHier_Blk_NSnH
+id: tddModulePkg_SnCHier_Blk_Nmulcc
+label: SnCHier_Blk_Nmulcc
 category: '[tddModulePkg]'
 
 templates:
   imports: from gnuradio import tddModulePkg
-  make: tddModulePkg.SnCHier_Blk_NSnH(${fft_len}, ${cp_len}, ${use_even_carriers})
-
-parameters:
--   id: fft_len
-    label: FFT length
-    dtype: int
--   id: cp_len
-    label: Cyclic Prefix length
-    dtype: int
--   id: use_even_carriers
-    label: Preamble Carriers
-    dtype: enum
-    default: 'False'
-    options: ['False', 'True']
-    option_labels: [Odd, Even]
-    hide: part
-
-inputs:
--   domain: stream
-    dtype: complex
+  make: tddModulePkg.SnCHier_Blk_Nmulcc()
 
 outputs:
--   label: freq_offset
-    domain: stream
-    dtype: float
--   label: detect
-    domain: stream
-    dtype: byte
--   label: auto
-    domain: stream
-    dtype: float
-
-asserts:
-  - ${ fft_len > 0}
-  - ${ cp_len >= 0}
-
+- id: conj
+  label: conj
+  dtype: complex
+  domain: stream
+- id: fir
+  label: fir
+  dtype: float
+  domain: stream
+inputs:
+- id: ip
+  label: ip
+  dtype: complex
+  domain: stream
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
 file_format: 1
