@@ -18,3 +18,9 @@ prints
 https://www.research-collection.ethz.ch/bitstream/handle/20.500.11850/506206/FFT_HWPE_ASAP.pdf?sequence=3&isAllowed=y
 https://dl.acm.org/doi/pdf/10.1145/3386367.3431296
 https://arxiv.org/pdf/2210.09196
+
+check -
+- tx in 8cpu conf for 50Msps
+- 128 FFT, 128QAM performance
+- gr-gfdm
+- https://github.com/jdemel/XFDMSync/blob/master/lib/sc_delay_corr_impl.cc
